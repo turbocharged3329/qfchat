@@ -1,15 +1,4 @@
-# 🚀 Welcome to your new awesome project!
+Пример подключения для index.html
 
-This project has been created using **webpack-cli**, you can now run
-
-```
-npm run build
-```
-
-or
-
-```
-yarn build
-```
-
-to bundle your application
+<link rel="stylesheet" href="./qform-chat/dist/style.min.css">
+<script defer type="module" src="./qform-chat/dist/main.js"></script>
