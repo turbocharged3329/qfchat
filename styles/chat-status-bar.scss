@@ -1,0 +1,74 @@
+$status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M15 7.5C15 11.6421 11.6421 15 7.5 15C3.35786 15 0 11.6421 0 7.5C0 3.35786 3.35786 0 7.5 0C11.6421 0 15 3.35786 15 7.5Z' fill='%2353C853'/%3E%3C/svg%3E%0A");
+
+.qfchat-status-bar {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    &__avatar {
+        &-wrapper {
+            position: relative;
+            width: 70px;
+            height: 70px;
+        }
+
+        &-img {
+            display: block;
+            width: 70px;
+            height: 70px;
+            box-sizing: border-box;
+            border-radius: 50%;
+
+            &-online {
+                border: 1px solid $green;
+            }
+        }
+
+        &-status {
+            display: block;
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 8px;
+            right: 0px;
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+
+            &-online {
+                background-image: $status-online;
+            }
+        }
+    }
+
+    &__status-info {
+        &-wrapper {
+            display: block;
+            width: fit-content;
+            height: fit-content;
+            margin-left: 20px;
+            text-align: left;
+        }
+
+        &-name {
+            display: block;
+            font-weight: 700;
+            font-size: 19.5469px;
+            line-height: 23px;
+            color: $gray;
+        }
+
+        &-status {
+            display: block;
+            color: $white;
+            opacity: .62;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 16px;
+        }
+
+    }
+}

@@ -1,0 +1,54 @@
+$send-icon: url("data:image/svg+xml,%3Csvg width='27' height='27' viewBox='0 0 27 27' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.1634 10.5412C1.58965 10.3106 1.5964 9.96748 2.20165 9.76611L23.6734 2.60886C24.2685 2.41086 24.6094 2.74386 24.4429 3.32661L18.3071 24.7984C18.1384 25.3935 17.7728 25.4205 17.5005 24.8771L12.375 14.625L2.1634 10.5412ZM7.66465 10.3162L14.0051 12.8531L17.4251 19.6954L21.4144 5.73411L7.66352 10.3162H7.66465Z' fill='%231CA9DF'/%3E%3C/svg%3E%0A");
+
+.qfchat-chat-input {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &__input {
+        width: 100%;
+        border: none;
+        word-break: break-word;
+        font-weight: 500;
+        font-size: 17.875px;
+        line-height: 21px;
+        color: $gray4;
+        padding: 0;
+        resize: none;
+        &::placeholder {
+            color: inherit;
+        }
+        &:focus {
+            border: none;
+            outline: none;
+
+            &::placeholder {
+                opacity: 0;
+            }
+        }
+
+        &-wrapper {
+            
+        }
+    }
+
+    &__send-btn {
+        width: 27px;
+        height: 27px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        background-image: $send-icon;
+        background-color: transparent;
+        cursor: pointer;
+
+        &-wrapper {
+            width: fit-content;
+            height: fit-content;
+            flex-basis: auto;
+        }
+    }
+}

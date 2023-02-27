@@ -1,0 +1,46 @@
+@import 'https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;900&display=swap';            
+
+@import './variables.scss';
+@import './chat-btn.scss';
+@import './chat-welcome-msg.scss';
+@import './chat-window.scss';
+@import './chat-status-bar.scss';
+@import './chat-input.scss';
+
+button {
+    border: none;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+p {
+    margin: 0;
+}
+
+div, p, span, button, input, textarea {
+    font-family: 'Exo 2', sans-serif;
+}
+
+.qfchat {
+    &__hidden {
+        display: none;
+    }
+
+    &__invisible {
+        visibility: hidden;
+    }
+
+    &__transparent {
+        opacity: 0;
+    }
+
+    &__main-wrapper {
+        width: fit-content;
+        height: fit-content;
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+    } 
+}
+
+
