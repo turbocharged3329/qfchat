@@ -1,8 +1,9 @@
 import Dom from "./utils/dom.js";
-
 export default class ChatInput extends Dom {
-    constructor() {
+    constructor(options) {
         super()
+
+        this.Emitter = options?.emitter;
     }
 
     init() {
@@ -24,8 +25,10 @@ export default class ChatInput extends Dom {
         this.$input.setAttribute('rows', '1')
         this.$input.setAttribute('autocomplete', 'false')
         this.$input.addEventListener('input', this.setInputHeight.bind(this)) 
+        this.$input.addEventListener('keydown', this.onInputKeydown.bind(this))
 
         this.$sendBtn.setAttribute('type', 'button');
+        this.$sendBtn.addEventListener('click', this.onClickSend.bind(this))
         sendBtnWrapper.append(this.$sendBtn);
         inputWrapper.append(this.$input);
 
@@ -35,18 +38,35 @@ export default class ChatInput extends Dom {
         return this.$root;
     }
 
+    onClickSend(event) {
+        event.stopPropagation();
+        this.Emitter.emit('addMessage', 'user', this.$input.value);
+        this.resetInput();
+    }
+
+    onInputKeydown(event) {
+        if (event.keyCode === 13 && !event.shiftKey) {
+            event.stopPropagation();
+            event.preventDefault();
+            this.Emitter.emit('addMessage', 'user', event.target.value);
+            this.resetInput();
+        } 
+    }
+
+    resetInput() {
+        this.$input.value = '';
+        this.$input.rows = 1;
+    }
+
     setInputHeight(event) {
         const lineHeight = getComputedStyle(event.target)['line-height'].replace('px', ''); 
 
         if (event.target.rows < 4 && !event.inputType !== 'deleteContentBackward') {
             event.target.rows = event.target.scrollHeight / lineHeight
         } 
-
-        // if (event.inputType === 'deleteContentBackward') {
-        //     const rowsInFact = Math.ceil(event.target.value.length / symbolsInRow);
-        //     const symbolsInRow = 21;
-        //     console.log(rowsInFact);
-        //     event.target.rows = rowsInFact < 4 ? rowsInFact : 4;
-        // }
+    
+        if (!event.target.value) {
+            event.target.rows = 1;
+        }
     }
 }

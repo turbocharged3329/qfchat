@@ -25,7 +25,7 @@ export default class StatusBar extends Dom {
         const $avatarImage = this.createElement('img', ['qfchat-status-bar__avatar-img', 'qfchat-status-bar__avatar-img-online']);
         const $avatarStatus = this.createElement('i', ['qfchat-status-bar__avatar-status', 'qfchat-status-bar__avatar-status-online']);
 
-        $avatarImage.src = '../../../qform-chat/src/assets/evgeniy.png';
+        $avatarImage.src = '/src/assets/evgeniy.png';
 
         this.$avatarWrapper.append($avatarImage);
         this.$avatarWrapper.append($avatarStatus);

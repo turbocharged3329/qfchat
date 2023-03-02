@@ -3,8 +3,10 @@ import ChatWelcomeMsg from "./chatWelcomeMsg";
 import ChatWindow from "./chatWindow.js";
 
 export default class ChatBtn extends Dom {
-    constructor() {
+    constructor(options) {
         super()
+        
+        this.Emitter = options?.emitter;
     }
 
     init() {
@@ -57,7 +59,7 @@ export default class ChatBtn extends Dom {
     }
 
     addChatWindow() {
-        this.chatWindow = new ChatWindow();
+        this.chatWindow = new ChatWindow({emitter: this.Emitter});
 
         this.chatWindow.init();
         this.$wrapper.append(this.chatWindow.createChatWindow());

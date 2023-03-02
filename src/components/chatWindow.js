@@ -1,10 +1,13 @@
 import Dom from "./utils/dom.js";
 import StatusBar from "./chatStatusBar.js";
 import ChatInput from "./chatInput.js";
+import ChatMessages from "./chatMessages.js";
 
 export default class ChatWindow extends Dom {
-    constructor() {
+    constructor(options) {
         super();
+
+        this.Emitter = options?.emitter;
     }
 
     init() {
@@ -16,6 +19,7 @@ export default class ChatWindow extends Dom {
 
         this.statusBar = null;
         this.chatInput = null;
+        this.chatMessagesSection = null;
     }
 
     createChatWindow() {
@@ -28,7 +32,11 @@ export default class ChatWindow extends Dom {
         this.statusBar.init();
         this.$header.append(this.statusBar.createStatusBar())
 
-        this.chatInput = new ChatInput();
+        this.chatMessagesSection = new ChatMessages({emitter: this.Emitter});
+        this.chatMessagesSection.init();
+        this.$body.append(this.chatMessagesSection.createChatMessagesSection())
+
+        this.chatInput = new ChatInput({emitter: this.Emitter});
         this.chatInput.init();
         this.$footer.append(this.chatInput.createChatInput())
 
