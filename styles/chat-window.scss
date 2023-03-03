@@ -1,3 +1,5 @@
+$gray-smile: url("data:image/svg+xml,%3Csvg width='57' height='57' viewBox='0 0 57 57' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.87882 48.6999C6.26023 46.0881 4.18359 42.9846 2.76822 39.5677C1.35285 36.1508 0.626656 32.4879 0.63137 28.7895C0.63137 13.2379 13.2377 0.631592 28.7893 0.631592C44.3409 0.631592 56.9472 13.2379 56.9472 28.7895C56.9472 44.3411 44.3409 56.9474 28.7893 56.9474H0.63137L8.87882 48.6999ZM17.5261 31.6053C17.5261 34.5925 18.7128 37.4573 20.825 39.5695C22.9373 41.6818 25.8021 42.8684 28.7893 42.8684C31.7764 42.8684 34.6413 41.6818 36.7535 39.5695C38.8658 37.4573 40.0524 34.5925 40.0524 31.6053H17.5261Z' fill='%23BDBDBD'/%3E%3C/svg%3E%0A");
+
 .qfchat-chat-window {
     position: absolute;
     bottom: calc(100% + 20px);
@@ -21,11 +23,35 @@
         box-sizing: border-box;
         padding: 18px 22px 9px 22px;
     }
+
     &__body {
         width: 100%;
         height: 100%;
         overflow-y: scroll;
+        position: relative;
+
+        &.qfchat-body-empty {
+            background-repeat: no-repeat;
+            background-position: 50% calc(50% - 20px);
+            background-size: auto;
+            background-image: $gray-smile;
+        }
+
+        &-placeholder {
+            display: block;
+            width: 100%;
+            position: absolute;
+            top: calc(50% + 20px);
+            left: 50%;
+            transform: translate(-50%);
+            font-weight: 700;
+            font-size: 19.5469px;
+            line-height: 23px;
+            color: $gray4;
+            text-align: center;
+        }
     }
+
     &__footer {
         display: flex;
         flex-flow: row nowrap;

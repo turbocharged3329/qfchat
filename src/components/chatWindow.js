@@ -20,28 +20,34 @@ export default class ChatWindow extends Dom {
         this.statusBar = null;
         this.chatInput = null;
         this.chatMessagesSection = null;
+        this.$bodyPlaceholder = null;
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
+        this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
     }
 
     createChatWindow() {
         this.$root = this.createElement('div', ['qfchat-chat-window', 'qfchat__transparent']);
         this.$header = this.createElement('div', 'qfchat-chat-window__header');
-        this.$body = this.createElement('div', 'qfchat-chat-window__body');
+        this.$body = this.createElement('div', ['qfchat-chat-window__body', 'qfchat-body-empty']);
         this.$footer = this.createElement('div', 'qfchat-chat-window__footer');
-    
+        //добавляем статусбар
         this.statusBar = new StatusBar();
         this.statusBar.init();
         this.$header.append(this.statusBar.createStatusBar())
-
+        //добавляем секцию с сообщениями
         this.chatMessagesSection = new ChatMessages({emitter: this.Emitter});
         this.chatMessagesSection.init();
         this.$body.append(this.chatMessagesSection.createChatMessagesSection())
-
+        //добавляем надпись к чату без сообщений 
+        this.$bodyPlaceholder = this.createElement('span', 'qfchat-chat-window__body-placeholder');
+        this.$bodyPlaceholder.innerHTML = 'Пока нет сообщений'
+        this.$body.append(this.$bodyPlaceholder)
+        //добавляем секцию с полем ввода
         this.chatInput = new ChatInput({emitter: this.Emitter});
         this.chatInput.init();
         this.$footer.append(this.chatInput.createChatInput())
-
+        //добавляем составные части к окну чата
         this.$root.append(this.$header)
         this.$root.append(this.$body)
         this.$root.append(this.$footer)
@@ -58,5 +64,10 @@ export default class ChatWindow extends Dom {
         this.$body.scrollTo({
             top: this.$body.scrollHeight
         })
+    }
+
+    hidePlaceholder() {
+        this.$body.classList.remove('qfchat-body-empty');
+        this.$bodyPlaceholder.classList.add('qfchat__hidden');
     }
 }
