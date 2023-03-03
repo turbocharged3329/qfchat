@@ -20,6 +20,8 @@ export default class ChatWindow extends Dom {
         this.statusBar = null;
         this.chatInput = null;
         this.chatMessagesSection = null;
+
+        this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
     }
 
     createChatWindow() {
@@ -50,5 +52,11 @@ export default class ChatWindow extends Dom {
     toggleWindowVisibility(show) {
         this.$root.classList[show ? 'remove' : 'add']('qfchat__transparent')
         this.isWindowShown = !this.isWindowShown;
+    }
+
+    scrollToBottom() {
+        this.$body.scrollTo({
+            top: this.$body.scrollHeight
+        })
     }
 }

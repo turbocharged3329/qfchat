@@ -41,6 +41,7 @@ export default class ChatInput extends Dom {
     onClickSend(event) {
         event.stopPropagation();
         this.Emitter.emit('addMessage', 'user', this.$input.value);
+        this.Emitter.emit('scrollToBottom');
         this.resetInput();
     }
 
@@ -49,8 +50,9 @@ export default class ChatInput extends Dom {
             event.stopPropagation();
             event.preventDefault();
             this.Emitter.emit('addMessage', 'user', event.target.value);
+            this.Emitter.emit('scrollToBottom');
             this.resetInput();
-        } 
+        }
     }
 
     resetInput() {

@@ -23,10 +23,10 @@ export default class ChatMessages extends Dom {
     createMessage(role, text) {
         const message = this.createElement('div',[
             'qfchat-chat-messages__message',
-            `qfchat-chat__message-${role}` 
+            `qfchat-chat-messages__message-${role}` 
         ]);
         
-        message.innerHTML = text.replace(/\n/g, '<br>');
+        message.innerHTML = text.replace(/\n/g, '<br>').trim();
 
         return message;
     }
@@ -37,5 +37,6 @@ export default class ChatMessages extends Dom {
             role,
             text
         })
+        this.$root.append(this.createMessage('comp', '123'));
     }
 }
