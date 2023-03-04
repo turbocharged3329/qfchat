@@ -44,4 +44,8 @@ export default class ChatMessages extends Dom {
         })
         this.$root.append(this.createMessage('comp', '123'));
     }
+
+    addQformScript() {
+        
+    }
 }
