@@ -9,6 +9,10 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
         background-size: 58px;
         border-radius: 17.6992px;
         cursor: pointer;
+        transition: 0.2s ease-in-out;
+        &:hover {
+            transform: scale(1.05);
+        }
         &__wrapper {
             width: fit-content;
             height: fit-content;

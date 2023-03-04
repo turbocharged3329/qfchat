@@ -42,10 +42,7 @@ export default class ChatMessages extends Dom {
             role,
             text
         })
-        this.$root.append(this.createMessage('comp', '123'));
-    }
-
-    addQformScript() {
-        
+        this.$root.append(this.createMessage('comp', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'));
+        window.QFormOrganizer._rebuildForms()
     }
 }

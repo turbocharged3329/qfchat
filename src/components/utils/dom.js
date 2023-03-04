@@ -5,10 +5,12 @@ export default class Dom {
         try {
             const el = document.createElement(tagName);
             
-            if (Array.isArray(classes)) {
-                el.classList.add(...classes)
-            } else {
-                el.classList.add(classes);
+            if (classes) {
+                if (Array.isArray(classes)) {
+                    el.classList.add(...classes)
+                } else {
+                    el.classList.add(classes);
+                }
             }
 
             return el;

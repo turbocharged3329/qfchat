@@ -24,10 +24,11 @@ export default class ChatWindow extends Dom {
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
+        this.addQformScript()
     }
 
     createChatWindow() {
-        this.$root = this.createElement('div', ['qfchat-chat-window', 'qfchat__transparent']);
+        this.$root = this.createElement('div', ['qfchat-chat-window', 'qfchat-chat-window__hidden']);
         this.$header = this.createElement('div', 'qfchat-chat-window__header');
         this.$body = this.createElement('div', ['qfchat-chat-window__body', 'qfchat-body-empty']);
         this.$footer = this.createElement('div', 'qfchat-chat-window__footer');
@@ -56,7 +57,7 @@ export default class ChatWindow extends Dom {
     }
 
     toggleWindowVisibility(show) {
-        this.$root.classList[show ? 'remove' : 'add']('qfchat__transparent')
+        this.$root.classList[show ? 'remove' : 'add']('qfchat-chat-window__hidden')
         this.isWindowShown = !this.isWindowShown;
     }
 
@@ -69,5 +70,14 @@ export default class ChatWindow extends Dom {
     hidePlaceholder() {
         this.$body.classList.remove('qfchat-body-empty');
         this.$bodyPlaceholder.classList.add('qfchat__hidden');
+    }
+
+    addQformScript() {
+        const script = this.createElement('script');
+        script.type = 'text/javascript'
+        script.defer = 'defer';
+        script.src = '//dev-cdn.qform.io/forms.js?v='; 
+
+        document.head.append(script);
     }
 }
