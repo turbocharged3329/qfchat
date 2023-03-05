@@ -11,14 +11,14 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
     &__avatar {
         &-wrapper {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 32px;
+            height: 32px;
         }
 
         &-img {
             display: block;
-            width: 70px;
-            height: 70px;
+            width: 32px;
+            height: 32px;
             box-sizing: border-box;
             border-radius: 50%;
 
@@ -29,10 +29,10 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
 
         &-status {
             display: block;
-            width: 15px;
-            height: 15px;
+            width: 7px;
+            height: 7px;
             position: absolute;
-            top: 8px;
+            top: 4px;
             right: 0px;
             background-repeat: no-repeat;
             background-size: contain;
@@ -49,15 +49,15 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
             display: block;
             width: fit-content;
             height: fit-content;
-            margin-left: 20px;
+            margin-left: 10px;
             text-align: left;
         }
 
         &-name {
             display: block;
-            font-weight: 700;
-            font-size: 19.5469px;
-            line-height: 23px;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 115%;
             color: $gray;
         }
 
@@ -66,8 +66,8 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
             color: $white;
             opacity: .62;
             font-weight: 400;
-            font-size: 13px;
-            line-height: 16px;
+            font-size: 14px;
+            line-height: 100%;
         }
 
     }

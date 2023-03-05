@@ -22,6 +22,8 @@ export default class ChatWindow extends Dom {
         this.chatMessagesSection = null;
         this.$bodyPlaceholder = null;
 
+        this.isOpenedOnce = false;
+
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
         this.addQformScript()

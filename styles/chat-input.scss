@@ -12,15 +12,20 @@ $send-icon: url("data:image/svg+xml,%3Csvg width='27' height='27' viewBox='0 0 2
         width: 100%;
         border: none;
         word-break: break-word;
-        font-weight: 500;
-        font-size: 17.875px;
-        line-height: 21px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
         color: $gray4;
         padding: 0;
         resize: none;
+        box-sizing: border-box;
+        padding: 18px 22px;
+        // min-height: 57px;
+
         &::placeholder {
             color: inherit;
         }
+
         &:focus {
             border: none;
             outline: none;
@@ -31,24 +36,29 @@ $send-icon: url("data:image/svg+xml,%3Csvg width='27' height='27' viewBox='0 0 2
         }
 
         &-wrapper {
-            
+            flex-basis: 100%;
         }
     }
 
     &__send-btn {
-        width: 27px;
-        height: 27px;
+        width: 28px;
+        height: 28px;
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         background-image: $send-icon;
         background-color: transparent;
         cursor: pointer;
+        box-sizing: border-box;
+        transform-origin: center;
+        transform: translateY(50%);
 
         &-wrapper {
             width: fit-content;
             height: fit-content;
             flex-basis: auto;
+            min-height: 57px;
+            margin-right: 22px;
         }
     }
 }

@@ -62,9 +62,12 @@ export default class ChatInput extends Dom {
 
     setInputHeight(event) {
         const lineHeight = getComputedStyle(event.target)['line-height'].replace('px', ''); 
-
-        if (event.target.rows < 4 && !event.inputType !== 'deleteContentBackward') {
-            event.target.rows = event.target.scrollHeight / lineHeight
+        const paddingTop = getComputedStyle(event.target)['padding-top'].replace('px', ''); 
+        const paddingBottom = getComputedStyle(event.target)['padding-top'].replace('px', ''); 
+        
+        console.log(event.target.scrollHeight, lineHeight, paddingTop, paddingBottom);
+        if (event.target.rows < 10 && !event.inputType !== 'deleteContentBackward') {
+            event.target.rows = (event.target.scrollHeight - paddingTop - paddingBottom) / +lineHeight
         } 
     
         if (!event.target.value) {

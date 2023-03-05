@@ -54,6 +54,11 @@ export default class ChatBtn extends Dom {
     }
 
     openChatWindow() {
+        if (!this.chatWindow.isOpenedOnce) {
+            this.chatWindow.isOpenedOnce = true;
+            this.Emitter.emit('hasWelcomeMessages', ['1', '2'])
+        }
+        
         this.welcomeMessage.toggleMessageVisibility()
         this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
     }

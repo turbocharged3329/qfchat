@@ -12,6 +12,7 @@ export default class ChatMessages extends Dom {
         this.messages = [];
 
         this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
+        this.Emitter.subscribe('hasWelcomeMessages', this.addWelcomeMessagesInDialog.bind(this))
     }
 
     createChatMessagesSection() {
@@ -42,7 +43,12 @@ export default class ChatMessages extends Dom {
             role,
             text
         })
-        this.$root.append(this.createMessage('comp', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'));
-        window.QFormOrganizer._rebuildForms()
+
+        // this.$root.append(this.createMessage('system', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'));
+        // window.QFormOrganizer._rebuildForms()
+    }
+
+    addWelcomeMessagesInDialog(messages) {
+        messages.forEach((message) => this.addMessage('comp', message))
     }
 }
