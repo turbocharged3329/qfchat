@@ -18,46 +18,6 @@
   position: relative;
 }
 
-.qfchat-welcome-msg {
-  padding: 23px;
-  box-sizing: border-box;
-  width: fit-content;
-  max-width: 334px;
-  height: 68px;
-  border-radius: 13px;
-  box-shadow: 5px 4px 11px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 2;
-  background-color: #fff;
-}
-.qfchat-welcome-msg::after {
-  content: "";
-  position: absolute;
-  left: calc(100% - 20px);
-  bottom: 2px;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: auto;
-  display: block;
-  width: 34px;
-  height: 33px;
-  background-image: url("data:image/svg+xml,%3Csvg width='29' height='29' viewBox='0 0 29 29' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28.6742 21.9117L0.622458 28.8315L8.77465 0.585743L28.6742 21.9117Z' fill='white'/%3E%3C/svg%3E%0A");
-  z-index: 1;
-}
-.qfchat-welcome-msg__text {
-  font-weight: 500;
-  font-size: 17.875px;
-  line-height: 21px;
-  min-width: 100%;
-  white-space: nowrap;
-}
-.qfchat-welcome-msg__wrapper {
-  position: absolute;
-  right: calc(100% + 20px);
-  top: 0px;
-  transition: opacity 0.2s ease-in;
-}
-
 .qfchat-chat-window {
   position: absolute;
   bottom: calc(100% + 20px);
@@ -299,6 +259,36 @@
 }
 .qfchat-chat-messages__message-system div[data-formid] {
   min-height: 50px;
+}
+
+.qfchat-out-messages__wrapper {
+  position: absolute;
+  width: 350px;
+  height: fit-content;
+  min-height: 50px;
+  bottom: calc(100% + 20px);
+  right: 0;
+}
+.qfchat-out-messages__message {
+  font-size: 14px;
+  line-height: 1.4;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  animation: appearance;
+  animation-duration: 0.5s;
+}
+.qfchat-out-messages__message:not(:first-of-type) {
+  margin-top: 20px;
+}
+@keyframes appearance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 button {

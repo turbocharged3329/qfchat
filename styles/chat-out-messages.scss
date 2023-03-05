@@ -1,0 +1,33 @@
+.qfchat-out-messages {
+    &__wrapper {
+        position: absolute;
+        width: 350px;
+        height: fit-content;
+        min-height: 50px;
+        bottom: calc(100% + 20px);
+        right: 0;
+    }
+    &__message {
+        font-size: 14px;
+        line-height: 1.4;
+        box-sizing: border-box;
+        padding: 15px 20px;
+        background-color: $white;
+        border-radius: 10px;
+        animation: appearance;
+        animation-duration: .5s;
+        &:not(:first-of-type) {
+            margin-top: 20px;
+        }
+    }
+
+    @keyframes appearance {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+}

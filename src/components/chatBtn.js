@@ -1,5 +1,5 @@
 import Dom from "./utils/dom.js";
-import ChatWelcomeMsg from "./chatWelcomeMsg";
+import ChatOutMessages from "./chatOutMessages.js";
 import ChatWindow from "./chatWindow.js";
 
 export default class ChatBtn extends Dom {
@@ -15,13 +15,29 @@ export default class ChatBtn extends Dom {
         this.$chatBtn = null;
 
         this.chatWindow = null;
+        this.chatOutMessages = null;
         this.welcomeMessage = null;
 
         this.addChatBtn();
-        this.showWelcomeMessage();
         this.addChatWindow();
+        this.addOutMessages();
+
+        setTimeout(() => {
+            if (!this.chatWindow.isWindowShown) {
+                this.chatOutMessages.addOutMessage('Привет, меня зовут Евгений');
+            }
+            this.Emitter.emit('hasWelcomeMessages', ['Привет, меня зовут Евгений'])
+        }, 1000)
+        setTimeout(() => {
+            if (!this.chatWindow.isWindowShown) {
+                this.chatOutMessages.addOutMessage('Чем могу помочь ?')
+            }
+            this.Emitter.emit('hasWelcomeMessages', ['Чем могу помочь ?'])
+        }, 2000)
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
+
+        this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
     }
 
     createChatBtn() {
@@ -42,24 +58,18 @@ export default class ChatBtn extends Dom {
         document.body.append(this.createChatBtn());
     }
 
-    async showWelcomeMessage() {        
-        this.welcomeMessage = new ChatWelcomeMsg();
-        this.welcomeMessage.init()
-        this.$chatBtnWrapper.append(this.welcomeMessage.createMessage())
+    addOutMessages() {
+        this.chatOutMessages = new ChatOutMessages({emitter: this.Emitter});
+        this.chatOutMessages.init();
 
-        const timeout = setTimeout(() => {
-            this.welcomeMessage.toggleMessageVisibility(true)
-            clearTimeout(timeout);
-        }, 1500)
+        this.$wrapper.append(this.chatOutMessages.createOutMessagesWrapper())
     }
 
     openChatWindow() {
         if (!this.chatWindow.isOpenedOnce) {
             this.chatWindow.isOpenedOnce = true;
-            this.Emitter.emit('hasWelcomeMessages', ['1', '2'])
         }
         
-        this.welcomeMessage.toggleMessageVisibility()
         this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
     }
 
