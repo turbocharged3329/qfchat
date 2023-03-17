@@ -4,10 +4,15 @@
         width: 350px;
         height: fit-content;
         min-height: 50px;
-        bottom: calc(100% + 20px);
-        right: 0;
+        bottom: 0;
+        right: calc(100% + 20px);
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-end;
+        align-items: flex-end;
     }
     &__message {
+        width: fit-content;
         font-size: 14px;
         line-height: 1.4;
         box-sizing: border-box;

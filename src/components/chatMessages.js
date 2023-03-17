@@ -5,14 +5,18 @@ export default class ChatMessages extends Dom {
         super()
 
         this.Emitter = options?.emitter;
+        this.messagesState = options.messagesState;
     }
 
     init() {
         this.$root = null;
-        this.messages = [];
 
         this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
         this.Emitter.subscribe('hasWelcomeMessages', this.addWelcomeMessagesInDialog.bind(this))
+
+        // setTimeout(() => {
+        //     this.addLeadMessage()
+        // }, 3000)
     }
 
     createChatMessagesSection() {
@@ -35,20 +39,19 @@ export default class ChatMessages extends Dom {
     addMessage(role, text) {
         this.$root.append(this.createMessage(role, text));
         
-        if (!this.messages.length) {
+        if (!this.messagesState.messages.length) {
             this.Emitter.emit('hidePlaceholder');
         }
 
-        this.messages.push({
-            role,
-            text
-        })
-
-        // this.$root.append(this.createMessage('system', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'));
-        // window.QFormOrganizer._rebuildForms()
+        this.messagesState.addMessage({role, text})
     }
 
     addWelcomeMessagesInDialog(messages) {
         messages.forEach((message) => this.addMessage('comp', message))
+    }
+
+    addLeadMessage() {
+        this.addMessage('system', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>')
+        window.QFormOrganizer._rebuildForms()
     }
 }

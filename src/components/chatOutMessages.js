@@ -5,12 +5,14 @@ export default  class OutMessages extends Dom {
         super()
 
         this.Emitter = options.emitter;
+        this.messagesState = options.messagesState;
     }
 
     init() {
         this.$root = null;
         this.isOpen = false;
-        this.messages = [];
+
+        this.Emitter.subscribe('hideOutMessages', this.toggleOutMessagesVisibility.bind(this, false))
     }
 
     createOutMessagesWrapper() {
@@ -29,9 +31,6 @@ export default  class OutMessages extends Dom {
 
     addOutMessage(text) {
         this.toggleOutMessagesVisibility(true);
-        this.messages.push({
-            text
-        })
         this.$root.append(this.createOutMessage(text));
     }
 

@@ -8,9 +8,12 @@ export default class ChatWindow extends Dom {
         super();
 
         this.Emitter = options?.emitter;
+        this.messagesState = options?.messagesState;
     }
 
     init() {
+        this.addQformScript()
+        
         this.$root = null;
         this.$header = null;
         this.$body = null;
@@ -26,7 +29,6 @@ export default class ChatWindow extends Dom {
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
-        this.addQformScript()
     }
 
     createChatWindow() {
@@ -39,7 +41,7 @@ export default class ChatWindow extends Dom {
         this.statusBar.init();
         this.$header.append(this.statusBar.createStatusBar())
         //добавляем секцию с сообщениями
-        this.chatMessagesSection = new ChatMessages({emitter: this.Emitter});
+        this.chatMessagesSection = new ChatMessages({emitter: this.Emitter, messagesState: this.messagesState});
         this.chatMessagesSection.init();
         this.$body.append(this.chatMessagesSection.createChatMessagesSection())
         //добавляем надпись к чату без сообщений 

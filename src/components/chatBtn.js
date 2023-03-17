@@ -1,15 +1,11 @@
 import Dom from "./utils/dom.js";
+import MessagesState from "./utils/messagesState.js";
 import ChatOutMessages from "./chatOutMessages.js";
 import ChatWindow from "./chatWindow.js";
 
 export default class ChatBtn extends Dom {
     constructor(options) {
         super()
-        
-        this.Emitter = options?.emitter;
-    }
-
-    init() {
         this.$wrapper = null;
         this.$chatBtnWrapper = null;
         this.$chatBtn = null;
@@ -18,6 +14,12 @@ export default class ChatBtn extends Dom {
         this.chatOutMessages = null;
         this.welcomeMessage = null;
 
+        this.Emitter = options?.emitter;
+        this.messagesState = null;
+    }
+
+    init() {
+        this.initMessagesState();
         this.addChatBtn();
         this.addChatWindow();
         this.addOutMessages();
@@ -40,6 +42,10 @@ export default class ChatBtn extends Dom {
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
     }
 
+    initMessagesState() {
+        this.messagesState = new MessagesState();
+    }
+
     createChatBtn() {
         //создаем основнуб обертку 
         this.$wrapper = this.createElement('DIV', 'qfchat__main-wrapper')
@@ -59,7 +65,7 @@ export default class ChatBtn extends Dom {
     }
 
     addOutMessages() {
-        this.chatOutMessages = new ChatOutMessages({emitter: this.Emitter});
+        this.chatOutMessages = new ChatOutMessages({emitter: this.Emitter, messagesState: this.messagesState});
         this.chatOutMessages.init();
 
         this.$wrapper.append(this.chatOutMessages.createOutMessagesWrapper())
@@ -71,10 +77,11 @@ export default class ChatBtn extends Dom {
         }
         
         this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
+        this.Emitter.emit('hideOutMessages');
     }
 
     addChatWindow() {
-        this.chatWindow = new ChatWindow({emitter: this.Emitter});
+        this.chatWindow = new ChatWindow({emitter: this.Emitter, messagesState: this.messagesState});
 
         this.chatWindow.init();
         this.$wrapper.append(this.chatWindow.createChatWindow());

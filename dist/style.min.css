@@ -34,6 +34,16 @@
   align-items: flex-start;
   transition: 0.25s ease-in-out;
 }
+@media (max-width: 1024px) {
+  .qfchat-chat-window {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 999999;
+    top: 0px;
+    left: 0px;
+  }
+}
 .qfchat-chat-window__hidden {
   width: 0px;
   height: 0px;
@@ -266,10 +276,15 @@
   width: 350px;
   height: fit-content;
   min-height: 50px;
-  bottom: calc(100% + 20px);
-  right: 0;
+  bottom: 0;
+  right: calc(100% + 20px);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .qfchat-out-messages__message {
+  width: fit-content;
   font-size: 14px;
   line-height: 1.4;
   box-sizing: border-box;

@@ -65,7 +65,6 @@ export default class ChatInput extends Dom {
         const paddingTop = getComputedStyle(event.target)['padding-top'].replace('px', ''); 
         const paddingBottom = getComputedStyle(event.target)['padding-top'].replace('px', ''); 
         
-        console.log(event.target.scrollHeight, lineHeight, paddingTop, paddingBottom);
         if (event.target.rows < 10 && !event.inputType !== 'deleteContentBackward') {
             event.target.rows = (event.target.scrollHeight - paddingTop - paddingBottom) / +lineHeight
         } 
