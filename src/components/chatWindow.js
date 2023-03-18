@@ -18,6 +18,7 @@ export default class ChatWindow extends Dom {
         this.$header = null;
         this.$body = null;
         this.$footer = null;
+        this.$audioPlayer = null;
         this.isWindowShown = false;
 
         this.statusBar = null;

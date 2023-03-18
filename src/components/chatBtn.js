@@ -29,18 +29,19 @@ export default class ChatBtn extends Dom {
                 this.chatOutMessages.addOutMessage('Привет, меня зовут Евгений');
             }
             this.Emitter.emit('hasWelcomeMessages', ['Привет, меня зовут Евгений'])
-        }, 1000)
+        }, 3000)
         setTimeout(() => {
             if (!this.chatWindow.isWindowShown) {
                 this.chatOutMessages.addOutMessage('Чем могу помочь ?')
             }
             this.Emitter.emit('hasWelcomeMessages', ['Чем могу помочь ?'])
-        }, 2000)
+        }, 5000)
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
 
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
         this.Emitter.subscribe('hideChat', this.toggleOpenedBtnState.bind(this, false))
+        this.Emitter.subscribe('playMessageSound', this.playMessageSound.bind(this))
     }
 
     initMessagesState() {
@@ -91,5 +92,21 @@ export default class ChatBtn extends Dom {
 
     toggleOpenedBtnState(show = true) {
         this.$chatBtn.classList[show ? 'add' : 'remove']('qfchat-btn-opened');
+    }
+
+    playMessageSound() {
+        this.addMessageSoundTag();
+
+        this.$audioPlayer.removeAttribute('autoplay');
+        this.$audioPlayer.setAttribute('autoplay', true);
+
+        this.$audioPlayer.innerHTML = '';
+        this.$audioPlayer.innerHTML = '<source src="https://zvukipro.com/uploads/files/2018-12/1543852602_plyus_org-z_uk-u_edomleniya-4.mp3" type="audio/mpeg">';;
+        this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
+    }
+
+    addMessageSoundTag() {
+        this.$audioPlayer = this.createElement('audio');
+        document.body.append(this.$audioPlayer);
     }
 }

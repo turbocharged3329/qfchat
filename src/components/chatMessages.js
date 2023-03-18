@@ -38,11 +38,12 @@ export default class ChatMessages extends Dom {
 
     addMessage(role, text) {
         this.$root.append(this.createMessage(role, text));
-        
+
         if (!this.messagesState.messages.length) {
             this.Emitter.emit('hidePlaceholder');
         }
 
+        this.Emitter.emit('playMessageSound');
         this.messagesState.addMessage({role, text})
     }
 
