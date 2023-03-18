@@ -29,6 +29,8 @@ export default class ChatWindow extends Dom {
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
+
+        document.documentElement.addEventListener('click', this.onChatMissclick.bind(this))
     }
 
     createChatWindow() {
@@ -78,6 +80,13 @@ export default class ChatWindow extends Dom {
     hidePlaceholder() {
         this.$body.classList.remove('qfchat-body-empty');
         this.$bodyPlaceholder.classList.add('qfchat__hidden');
+    }
+
+    onChatMissclick(event) {
+        if (!event.target.className.includes('qfchat') && !event.target.className.includes('qfchat-btn')) {
+            this.Emitter.emit('hideChat');
+            this.toggleWindowVisibility(false);
+        }
     }
 
     addQformScript() {
