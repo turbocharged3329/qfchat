@@ -17,7 +17,6 @@ export default  class OutMessages extends Dom {
 
     createOutMessagesWrapper() {
         this.$root = this.createElement('div', ['qfchat-out-messages__wrapper', 'qfchat__hidden']);
-        this.$root.addEventListener('mouseenter', this.openChatWindow.bind(this))
 
         return this.$root;
     }
@@ -25,6 +24,7 @@ export default  class OutMessages extends Dom {
     createOutMessage(text) {
         const $message = this.createElement('div', 'qfchat-out-messages__message');
         $message.innerHTML = text;
+        $message.addEventListener('mouseenter', this.openChatWindow.bind(this))
 
         return $message;
     }
