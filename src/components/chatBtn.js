@@ -40,6 +40,7 @@ export default class ChatBtn extends Dom {
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
 
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
+        this.Emitter.subscribe('hideChat', this.toggleOpenedBtnState.bind(this, false))
     }
 
     initMessagesState() {
@@ -75,7 +76,8 @@ export default class ChatBtn extends Dom {
         if (!this.chatWindow.isOpenedOnce) {
             this.chatWindow.isOpenedOnce = true;
         }
-        
+
+        this.toggleOpenedBtnState(true);
         this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
         this.Emitter.emit('hideOutMessages');
     }
@@ -85,5 +87,9 @@ export default class ChatBtn extends Dom {
 
         this.chatWindow.init();
         this.$wrapper.append(this.chatWindow.createChatWindow());
+    }
+
+    toggleOpenedBtnState(show = true) {
+        this.$chatBtn.classList[show ? 'add' : 'remove']('qfchat-btn-opened');
     }
 }
