@@ -40,18 +40,26 @@ export default class ChatInput extends Dom {
 
     onClickSend(event) {
         event.stopPropagation();
-        this.Emitter.emit('addMessage', 'user', this.$input.value);
-        this.Emitter.emit('scrollToBottom');
-        this.resetInput();
+
+        if (this.$input.value) {
+            this.Emitter.emit('addMessage', 'user', this.$input.value);
+            this.Emitter.emit('scrollToBottom');
+            this.resetInput();
+        }
     }
 
     onInputKeydown(event) {
         if (event.keyCode === 13 && !event.shiftKey) {
-            event.stopPropagation();
-            event.preventDefault();
-            this.Emitter.emit('addMessage', 'user', event.target.value);
-            this.Emitter.emit('scrollToBottom');
-            this.resetInput();
+            if (this.$input.value) { 
+                event.stopPropagation();
+                event.preventDefault();
+                this.Emitter.emit('addMessage', 'user', event.target.value);
+                this.Emitter.emit('scrollToBottom');
+                this.resetInput();
+            } else {
+                event.preventDefault()
+                this.$input.blur()
+            }
         }
     }
 
