@@ -97,9 +97,6 @@ export default class ChatBtn extends Dom {
     playMessageSound() {
         this.addMessageSoundTag();
 
-        this.$audioPlayer.removeAttribute('autoplay');
-        this.$audioPlayer.setAttribute('autoplay', true);
-
         this.$audioPlayer.innerHTML = '';
         this.$audioPlayer.innerHTML = '<source src="https://zvukipro.com/uploads/files/2018-12/1543852602_plyus_org-z_uk-u_edomleniya-4.mp3" type="audio/mpeg">';;
         this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
@@ -107,6 +104,7 @@ export default class ChatBtn extends Dom {
 
     addMessageSoundTag() {
         this.$audioPlayer = this.createElement('audio');
+        this.$audioPlayer.setAttribute('autoplay', true);
         document.body.append(this.$audioPlayer);
     }
 }
