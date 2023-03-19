@@ -76,7 +76,7 @@ export default class ChatBtn extends Dom {
     openChatWindow() {
         if (!this.chatWindow.isOpenedOnce) {
             this.chatWindow.isOpenedOnce = true;
-            this.$chatBtn.classList.add('123');
+            this.$chatBtn.classList.add('qfchat-btn-opened-once');
         }
 
         this.toggleOpenedBtnState(true);

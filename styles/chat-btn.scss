@@ -10,17 +10,19 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
         border-radius: 10px;
         cursor: pointer;
         transition: 0.2s ease-in-out;
-        animation: showBackground .3s;
-        animation-fill-mode: forwards;
+
         &::before {
             animation: rotationBeforeBack 1s;
-        }
-        
-        &.qfchat-btn-opened {
-            position: relative;
-            animation: removeBackground .3s;
             animation-fill-mode: forwards;
-            
+        }
+        &::after {
+            animation: rotationAfterBack 1s;
+            animation-fill-mode: forwards;
+        }
+
+        &.qfchat-btn-opened-once {
+            animation: showBackground 1s;
+            animation-fill-mode: forwards;
             &::before {
                 content: '';
                 display: block;
@@ -31,8 +33,6 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
                 top: 50%;
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%) rotate(45deg);
-                animation: rotationBefore 1s;
-                animation-fill-mode: forwards;
             }
             &::after {
                 content: '';
@@ -44,6 +44,19 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
                 top: 50%;
                 left: 50%;
                 transform: translateX(-50%) translateY(-50%) rotate(135deg);
+            }
+        }
+        
+        &.qfchat-btn-opened {
+            position: relative;
+            animation: removeBackground .3s;
+            animation-fill-mode: forwards;
+            
+            &::before {
+                animation: rotationBefore 1s;
+                animation-fill-mode: forwards;
+            }
+            &::after {
                 animation: rotationAfter 1s;
                 animation-fill-mode: forwards;
             }
@@ -87,10 +100,14 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
         @keyframes rotationBeforeBack {
             from {
                 transform: translateX(-50%) translateY(-50%) rotate(135deg);
+                opacity: 1;
+                width: 20px;
             }
             
             to {
                 transform: translateX(-50%) translateY(-50%) rotate(45deg);
+                opacity: 0;
+                width: 10px;
             }
         }
         @keyframes rotationAfter {
@@ -100,6 +117,19 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
             
             to {
                 transform: translateX(-50%) translateY(-50%) rotate(225deg);
+            }
+        }
+        @keyframes rotationAfterBack {
+            from {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-50%) rotate(225deg);
+                width: 20px;
+            }
+            
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-50%) rotate(135deg);
+                width: 10px;
             }
         }
     }
