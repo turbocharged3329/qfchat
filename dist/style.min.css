@@ -1,36 +1,4 @@
 @import 'https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;900&display=swap';
-button {
-  border: none;
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-p {
-  margin: 0;
-}
-
-div, p, span, button, input, textarea {
-  font-family: "Exo 2", sans-serif;
-}
-
-.qfchat__hidden {
-  display: none;
-}
-.qfchat__invisible {
-  visibility: hidden;
-}
-.qfchat__transparent {
-  opacity: 0;
-}
-.qfchat__main-wrapper {
-  width: fit-content;
-  height: fit-content;
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-}
-
 .qfchat-btn {
   width: 48px;
   height: 48px;
@@ -365,4 +333,36 @@ div, p, span, button, input, textarea {
   to {
     opacity: 1;
   }
+}
+
+button {
+  border: none;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+p {
+  margin: 0;
+}
+
+div, p, span, button, input, textarea {
+  font-family: "Exo 2", sans-serif;
+}
+
+.qfchat__hidden {
+  display: none;
+}
+.qfchat__invisible {
+  visibility: hidden;
+}
+.qfchat__transparent {
+  opacity: 0;
+}
+.qfchat__main-wrapper {
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
 }
