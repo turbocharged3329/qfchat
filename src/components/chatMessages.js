@@ -28,10 +28,15 @@ export default class ChatMessages extends Dom {
     createMessage(role, text) {
         const message = this.createElement('div',[
             'qfchat-chat-messages__message',
-            `qfchat-chat-messages__message-${role}` 
+            `qfchat-chat-messages__message-${role}`,
+            'qfchat-chat-messages__message-writing'
         ]);
+        const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
+        message.append(loaderIcon)
         
-        message.innerHTML = text.replace(/\n/g, '<br>').trim();
+        setTimeout(() => {
+            message.innerHTML = text.replace(/\n/g, '<br>').trim();
+        }, 1500)
 
         return message;
     }
@@ -44,6 +49,7 @@ export default class ChatMessages extends Dom {
         }
 
         this.Emitter.emit('playMessageSound');
+
         this.messagesState.addMessage({role, text})
     }
 
