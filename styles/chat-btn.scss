@@ -10,8 +10,43 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
         border-radius: 10px;
         cursor: pointer;
         transition: 0.2s ease-in-out;
+        animation: showBackground .3s;
+        animation-fill-mode: forwards;
+        &::before {
+            animation: rotationBeforeBack 1s;
+        }
+        
         &.qfchat-btn-opened {
-            background-image: $cross-icon;
+            position: relative;
+            animation: removeBackground .3s;
+            animation-fill-mode: forwards;
+            
+            &::before {
+                content: '';
+                display: block;
+                width: 20px;
+                height: 1.5px;
+                background-color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%) rotate(45deg);
+                animation: rotationBefore 1s;
+                animation-fill-mode: forwards;
+            }
+            &::after {
+                content: '';
+                display: block;
+                width: 20px;
+                height: 1.5px;
+                background-color: white;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%) rotate(135deg);
+                animation: rotationAfter 1s;
+                animation-fill-mode: forwards;
+            }
         }
         &:hover {
             transform: scale(1.15);
@@ -20,6 +55,52 @@ $chat-icon: url("data:image/svg+xml,%3Csvg width='58' height='58' viewBox='0 0 5
             width: fit-content;
             height: fit-content;
             position: relative;
+        }
+        
+        @keyframes showBackground {
+            from {
+                background-size: 0px;
+            }
+            
+            to {
+                background-size: 24px;
+            }
+        }
+        @keyframes removeBackground {
+            from {
+                background-size: 24px;
+            }
+            
+            to {
+                background-size: 0px;
+            }
+        }
+        @keyframes rotationBefore {
+            from {
+                transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            }
+            
+            to {
+                transform: translateX(-50%) translateY(-50%) rotate(135deg);
+            }
+        }
+        @keyframes rotationBeforeBack {
+            from {
+                transform: translateX(-50%) translateY(-50%) rotate(135deg);
+            }
+            
+            to {
+                transform: translateX(-50%) translateY(-50%) rotate(45deg);
+            }
+        }
+        @keyframes rotationAfter {
+            from {
+                transform: translateX(-50%) translateY(-50%) rotate(135deg);
+            }
+            
+            to {
+                transform: translateX(-50%) translateY(-50%) rotate(225deg);
+            }
         }
     }
 }

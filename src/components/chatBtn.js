@@ -76,6 +76,7 @@ export default class ChatBtn extends Dom {
     openChatWindow() {
         if (!this.chatWindow.isOpenedOnce) {
             this.chatWindow.isOpenedOnce = true;
+            this.$chatBtn.classList.add('123');
         }
 
         this.toggleOpenedBtnState(true);
