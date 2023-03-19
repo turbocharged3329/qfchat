@@ -30,6 +30,7 @@ export default class ChatWindow extends Dom {
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
+        this.Emitter.subscribe('closeChat', this.toggleWindowVisibility.bind(this, false))
 
         document.documentElement.addEventListener('click', this.onChatMissclick.bind(this))
     }
@@ -40,7 +41,7 @@ export default class ChatWindow extends Dom {
         this.$body = this.createElement('div', ['qfchat-chat-window__body', 'qfchat-body-empty']);
         this.$footer = this.createElement('div', 'qfchat-chat-window__footer');
         //добавляем статусбар
-        this.statusBar = new StatusBar();
+        this.statusBar = new StatusBar({emitter: this.Emitter});
         this.statusBar.init();
         this.$header.append(this.statusBar.createStatusBar())
         //добавляем секцию с сообщениями

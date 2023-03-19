@@ -7,6 +7,7 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
     flex-flow: row nowrap;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
 
     &__avatar {
         &-wrapper {
@@ -70,5 +71,25 @@ $status-online: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0
             line-height: 100%;
         }
 
+    }
+
+    &__close-btn {
+        width: 30px;
+        height: 30px;
+        aspect-ratio: 1/1;
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        transform: translateY(-50%);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 80%;
+        background-image: $cross-icon;
+        background-color: transparent;
+        border: none;
+
+        @media (min-width: 769px) {
+            display: none;
+        }
     }
 }

@@ -99,12 +99,12 @@ export default class ChatBtn extends Dom {
 
         this.$audioPlayer.innerHTML = '';
         this.$audioPlayer.innerHTML = '<source src="https://zvukipro.com/uploads/files/2018-12/1543852602_plyus_org-z_uk-u_edomleniya-4.mp3" type="audio/mpeg">';;
-        this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
     }
 
     addMessageSoundTag() {
         this.$audioPlayer = this.createElement('audio');
         this.$audioPlayer.setAttribute('autoplay', true);
+        this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
         document.body.append(this.$audioPlayer);
     }
 }

@@ -1,14 +1,17 @@
 import Dom from "./utils/dom.js";
 
 export default class StatusBar extends Dom {
-    constructor() {
-        super()
+    constructor(options) {
+        super();
+
+        this.Emitter = options?.emitter;
     }
 
     init() {
         this.$root = null;
         this.$avatarWrapper = null;
         this.$statusInfoWrapper = null;
+        this.$mobileCloseBtn = null;
     }
 
     createStatusBar() {
@@ -16,6 +19,7 @@ export default class StatusBar extends Dom {
 
         this.$root.append(this.createAvatar());
         this.$root.append(this.createStatusInfo());
+        this.$root.append(this.createMobileCloseBtn());
 
         return this.$root;
     }
@@ -47,5 +51,17 @@ export default class StatusBar extends Dom {
         this.$statusInfoWrapper.append(status)
 
         return this.$statusInfoWrapper;
+    }
+
+    createMobileCloseBtn() {
+        this.$mobileCloseBtn = this.createElement('button', 'qfchat-status-bar__close-btn')
+        this.$mobileCloseBtn.setAttribute('type', 'button');
+        this.$mobileCloseBtn.addEventListener('click', this.emitClose.bind(this))
+
+        return this.$mobileCloseBtn;
+    }
+
+    emitClose() {
+        this.Emitter.emit('closeChat');
     }
 }
