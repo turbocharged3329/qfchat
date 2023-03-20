@@ -32,12 +32,13 @@ export default class ChatMessages extends Dom {
             'qfchat-chat-messages__message-writing'
         ]);
         
-        if (role === 'comp') {
+        if (role !== 'user') {
             const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
             message.append(loaderIcon)
             
             setTimeout(() => {
                 message.innerHTML = text.replace(/\n/g, '<br>').trim();
+                this.Emitter.emit('playMessageSound');
             }, 1500)
         } else {
             message.innerHTML = text.replace(/\n/g, '<br>').trim();
@@ -51,10 +52,6 @@ export default class ChatMessages extends Dom {
 
         if (!this.messagesState.messages.length) {
             this.Emitter.emit('hidePlaceholder');
-        }
-
-        if (role !== 'user') {
-            this.Emitter.emit('playMessageSound');
         }
 
         this.messagesState.addMessage({role, text})
