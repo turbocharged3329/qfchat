@@ -31,12 +31,17 @@ export default class ChatMessages extends Dom {
             `qfchat-chat-messages__message-${role}`,
             'qfchat-chat-messages__message-writing'
         ]);
-        const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
-        message.append(loaderIcon)
         
-        setTimeout(() => {
+        if (role === 'comp') {
+            const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
+            message.append(loaderIcon)
+            
+            setTimeout(() => {
+                message.innerHTML = text.replace(/\n/g, '<br>').trim();
+            }, 1500)
+        } else {
             message.innerHTML = text.replace(/\n/g, '<br>').trim();
-        }, 1500)
+        } 
 
         return message;
     }
