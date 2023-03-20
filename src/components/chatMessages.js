@@ -53,7 +53,9 @@ export default class ChatMessages extends Dom {
             this.Emitter.emit('hidePlaceholder');
         }
 
-        this.Emitter.emit('playMessageSound');
+        if (role !== 'user') {
+            this.Emitter.emit('playMessageSound');
+        }
 
         this.messagesState.addMessage({role, text})
     }
