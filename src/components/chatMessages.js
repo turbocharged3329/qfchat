@@ -13,10 +13,9 @@ export default class ChatMessages extends Dom {
 
         this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
         this.Emitter.subscribe('hasWelcomeMessages', this.addWelcomeMessagesInDialog.bind(this))
+        this.Emitter.subscribe('answer', this.addMessage.bind(this, 'comp', 'Ответ от сервера'))
+        this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
 
-        // setTimeout(() => {
-        //     this.addLeadMessage()
-        // }, 3000)
     }
 
     createChatMessagesSection() {
