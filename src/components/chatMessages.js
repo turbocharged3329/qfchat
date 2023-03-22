@@ -38,6 +38,10 @@ export default class ChatMessages extends Dom {
             setTimeout(() => {
                 message.innerHTML = text.replace(/\n/g, '<br>').trim();
                 this.Emitter.emit('playMessageSound');
+
+                if (role === 'system') {
+                    window.QFormOrganizer._rebuildForms()
+                }
             }, 1500)
         } else {
             message.innerHTML = text.replace(/\n/g, '<br>').trim();
@@ -62,6 +66,5 @@ export default class ChatMessages extends Dom {
 
     addLeadMessage() {
         this.addMessage('system', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>')
-        window.QFormOrganizer._rebuildForms()
     }
 }

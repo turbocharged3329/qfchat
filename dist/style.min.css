@@ -399,6 +399,7 @@
 }
 .qfchat-chat-messages__message-system {
   margin-left: 21px;
+  width: 100%;
 }
 .qfchat-chat-messages__message-system div[data-formid] {
   min-height: 50px;
