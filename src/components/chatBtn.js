@@ -100,7 +100,7 @@ export default class ChatBtn extends Dom {
 
         this.$audioPlayer.innerHTML = '';
         // this.$audioPlayer.innerHTML = '<source src="https://zvukipro.com/uploads/files/2018-12/1543852602_plyus_org-z_uk-u_edomleniya-4.mp3" type="audio/mpeg">';;
-        this.$audioPlayer.innerHTML = '<source src="/message.mp3" type="audio/mpeg">';
+        this.$audioPlayer.innerHTML = '<source src="/src/assets/message.mp3" type="audio/mpeg">';
     }
 
     addMessageSoundTag() {
