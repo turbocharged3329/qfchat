@@ -65,6 +65,11 @@ export default class ChatMessages extends Dom {
     }
 
     addLeadMessage() {
-        this.addMessage('system', '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>')
+        this.addMessage(
+            'system',
+             document.location.host === 'chat.web-str3.ru"' 
+             ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
+             : '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'
+        )
     }
 }
