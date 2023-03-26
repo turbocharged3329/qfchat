@@ -29,9 +29,9 @@ export default  class OutMessages extends Dom {
         return $message;
     }
 
-    addOutMessage(text) {
+    addOutMessage(message) {
         this.toggleOutMessagesVisibility(true);
-        this.$root.append(this.createOutMessage(text));
+        this.$root.append(this.createOutMessage(message.text));
     }
 
     toggleOutMessagesVisibility(isVisible) {

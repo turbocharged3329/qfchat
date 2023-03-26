@@ -13,7 +13,7 @@ export default class ChatMessages extends Dom {
         this.$root = null;
 
         this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
-        this.Emitter.subscribe('hasWelcomeMessages', this.addWelcomeMessagesInDialog.bind(this))
+        this.Emitter.subscribe('hasWelcomeMessages', this.addMessage.bind(this))
         this.Emitter.subscribe('answer', this.addMessage.bind(this, 'comp', 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?'))
         this.Emitter.subscribe('answer2', this.addMessage.bind(this, 'comp', 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты'))
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
@@ -26,22 +26,22 @@ export default class ChatMessages extends Dom {
         return this.$root;
     }
 
-    createMessage(role, text) {
+    createMessage(messageData) {
         const message = this.createElement('div',[
             'qfchat-chat-messages__message',
-            `qfchat-chat-messages__message-${role}`,
+            `qfchat-chat-messages__message-${messageData.role}`,
             'qfchat-chat-messages__message-writing'
         ]);
         
-        if (role !== 'user') {
+        if (messageData.role !== 'user') {
             const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
             message.append(loaderIcon)
             
             setTimeout(() => {
-                message.innerHTML = text.replace(/\n/g, '<br>').trim();
+                message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
                 this.Emitter.emit('playMessageSound');
 
-                if (role === 'system') {
+                if (messageData.role === 'system') {
                     window.QFormOrganizer._rebuildForms()
                 }
             }, 1500)
@@ -52,17 +52,13 @@ export default class ChatMessages extends Dom {
         return message;
     }
 
-    addMessage(role, text) {
-        this.messagesState.addMessage({role, text, alerted: false})
-        this.$root.append(this.createMessage(role, text));
+    addMessage(message) {
+        this.messagesState.addMessage({role: message.role, text: message.text, alerted: false})
+        this.$root.append(this.createMessage(message));
 
         if (!this.messagesState.messages.length) {
             this.Emitter.emit('hidePlaceholder');
         }
-    }
-
-    addWelcomeMessagesInDialog(messages) {
-        messages.forEach((message) => this.addMessage('comp', message, 0))
     }
 
     addLeadMessage() {

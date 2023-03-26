@@ -25,16 +25,19 @@ export default class ChatBtn extends Dom {
         this.addOutMessages();
 
         setTimeout(() => {
+            let message = {role: 'comp', text: 'Привет, меня зовут Евгений'};
+
             if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage('Привет, меня зовут Евгений');
+                this.chatOutMessages.addOutMessage(message);
             }
-            this.Emitter.emit('hasWelcomeMessages', ['Привет, меня зовут Евгений'])
+            this.Emitter.emit('hasWelcomeMessages', message)
         }, 3000)
         setTimeout(() => {
+            let message = {role: 'comp', text: 'Чем могу помочь ?'}
             if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage('Чем могу помочь ?')
+                this.chatOutMessages.addOutMessage(message)
             }
-            this.Emitter.emit('hasWelcomeMessages', ['Чем могу помочь ?'])
+            this.Emitter.emit('hasWelcomeMessages', message)
         }, 5000)
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
