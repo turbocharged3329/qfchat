@@ -6,18 +6,33 @@ export default class ChatMessages extends Dom {
 
         this.Emitter = options?.emitter;
         this.messagesState = options.messagesState;
-
     }
 
     init() {
         this.$root = null;
 
-        this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
-        this.Emitter.subscribe('hasWelcomeMessages', this.addMessage.bind(this))
-        this.Emitter.subscribe('answer', this.addMessage.bind(this, 'comp', 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?'))
-        this.Emitter.subscribe('answer2', this.addMessage.bind(this, 'comp', 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты'))
-        this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
+        this.Emitter.subscribe('addMessage', (role, text) => {
+            let message = {id: Math.random().toString(16).slice(2), role, text, alerted: true};
 
+            this.addMessage(message);
+            this.messagesState.addMessage(message);
+        })
+        this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
+        this.Emitter.subscribe('answer', () => {
+            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
+
+            this.addMessage(message);
+            this.messagesState.addMessage(message);
+        })
+        this.Emitter.subscribe('answer2', () => {
+            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты', alerted: false};
+
+            this.addMessage(message);
+            this.messagesState.addMessage(message);
+            setTimeout(() => this.addLeadMessage(), 3000)
+        })
+        this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
+        // setTimeout(() => this.addLeadMessage(), 3000)
     }
 
     createChatMessagesSection() {
@@ -26,7 +41,7 @@ export default class ChatMessages extends Dom {
         return this.$root;
     }
 
-    createMessage(messageData) {
+    createMessage(messageData, silent = false) {
         const message = this.createElement('div',[
             'qfchat-chat-messages__message',
             `qfchat-chat-messages__message-${messageData.role}`,
@@ -36,37 +51,44 @@ export default class ChatMessages extends Dom {
         if (messageData.role !== 'user') {
             const loaderIcon = this.createElement('i', 'qfchat-chat-messages__message-writing-icon');
             message.append(loaderIcon)
-            
-            setTimeout(() => {
-                message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
-                this.Emitter.emit('playMessageSound');
 
-                if (messageData.role === 'system') {
-                    window.QFormOrganizer._rebuildForms()
-                }
-            }, 1500)
+            if (!silent) {
+                setTimeout(() => {
+                    message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
+                    if (!messageData.alerted) {
+                        this.Emitter.emit('playMessageSound', messageData.id);
+                    }
+    
+                    // if (messageData.role === 'system') {
+                    //     window.QFormOrganizer._rebuildForms()
+                    // }
+                }, 1500)
+            } else {
+                message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
+            }
         } else {
-            message.innerHTML = text.replace(/\n/g, '<br>').trim();
-        } 
+            message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
+        }
 
         return message;
     }
 
-    addMessage(message) {
-        this.messagesState.addMessage({role: message.role, text: message.text, alerted: false})
-        this.$root.append(this.createMessage(message));
-
-        if (!this.messagesState.messages.length) {
-            this.Emitter.emit('hidePlaceholder');
-        }
+    addMessage(message, silent = false) {
+        this.$root.append(this.createMessage(message, silent));
     }
 
     addLeadMessage() {
         this.addMessage(
-            'system',
-             document.location.host === 'chat.web-str3.ru' 
-             ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
-             : '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>'
+            {
+                id:Math.random().toString(16).slice(2),
+                role: 'system',
+                text: document.location.host === 'chat.web-str3.ru' 
+                ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
+                : '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>',
+                alerted: true,  
+            }, 
+            true
         )
+        window.QFormOrganizer._rebuildForms()
     }
 }

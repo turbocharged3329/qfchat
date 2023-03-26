@@ -32,6 +32,7 @@ export default  class OutMessages extends Dom {
     addOutMessage(message) {
         this.toggleOutMessagesVisibility(true);
         this.$root.append(this.createOutMessage(message.text));
+        this.Emitter.emit('playMessageSound', message.id);
     }
 
     toggleOutMessagesVisibility(isVisible) {

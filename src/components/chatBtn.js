@@ -25,19 +25,25 @@ export default class ChatBtn extends Dom {
         this.addOutMessages();
 
         setTimeout(() => {
-            let message = {role: 'comp', text: 'Привет, меня зовут Евгений'};
+            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
+
+            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+            this.messagesState.addMessage(message);
 
             if (!this.chatWindow.isWindowShown) {
                 this.chatOutMessages.addOutMessage(message);
             }
-            this.Emitter.emit('hasWelcomeMessages', message)
         }, 3000)
+        
         setTimeout(() => {
-            let message = {role: 'comp', text: 'Чем могу помочь ?'}
+            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
+
+            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+            this.messagesState.addMessage(message);
+
             if (!this.chatWindow.isWindowShown) {
                 this.chatOutMessages.addOutMessage(message)
             }
-            this.Emitter.emit('hasWelcomeMessages', message)
         }, 5000)
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
@@ -98,9 +104,10 @@ export default class ChatBtn extends Dom {
         this.$chatBtn.classList[show ? 'add' : 'remove']('qfchat-btn-opened');
     }
 
-    playMessageSound() {
+    playMessageSound(messageId) {
+        this.messagesState.messages.find(msg => msg.id === messageId).alerted = true;
         this.addMessageSoundTag();
-
+        
         this.$audioPlayer.innerHTML = '';
         // this.$audioPlayer.innerHTML = '<source src="https://zvukipro.com/uploads/files/2018-12/1543852602_plyus_org-z_uk-u_edomleniya-4.mp3" type="audio/mpeg">';;
         this.$audioPlayer.innerHTML = '<source src="/src/assets/message.mp3" type="audio/mpeg">';

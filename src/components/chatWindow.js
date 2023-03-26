@@ -66,7 +66,7 @@ export default class ChatWindow extends Dom {
 
     toggleWindowVisibility(show) {
         this.$root.classList[show ? 'remove' : 'add']('qfchat-chat-window__hidden')
-        this.isWindowShown = !this.isWindowShown;
+        this.isWindowShown = show;
 
         if (!show) {
             this.Emitter.emit('hideChat');
