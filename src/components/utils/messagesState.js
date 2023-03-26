@@ -11,13 +11,13 @@ export default class MessagesState {
     addMessage(message) {
         this.messages.push(message);
 
-        const userMessagesCount = this.messages.filter(msg => msg.role === 'comp').length;
+        const compMessagesCount = this.messages.filter(msg => msg.role === 'comp').length;
 
         if (message.role === 'user') {
-            if (userMessagesCount === 2) {
+            if (compMessagesCount === 2) {
                 this.Emitter.emit('answer');
-            } else if (userMessagesCount === 3) {
-                this.Emitter.emit('form');
+            } else if (compMessagesCount === 3) {
+                this.Emitter.emit('answer2');
             }
         }
     }

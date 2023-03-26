@@ -6,6 +6,7 @@ export default class ChatMessages extends Dom {
 
         this.Emitter = options?.emitter;
         this.messagesState = options.messagesState;
+
     }
 
     init() {
@@ -13,7 +14,8 @@ export default class ChatMessages extends Dom {
 
         this.Emitter.subscribe('addMessage', this.addMessage.bind(this))
         this.Emitter.subscribe('hasWelcomeMessages', this.addWelcomeMessagesInDialog.bind(this))
-        this.Emitter.subscribe('answer', this.addMessage.bind(this, 'comp', 'Ответ от сервера'))
+        this.Emitter.subscribe('answer', this.addMessage.bind(this, 'comp', 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?'))
+        this.Emitter.subscribe('answer2', this.addMessage.bind(this, 'comp', 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты'))
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
 
     }
@@ -51,17 +53,16 @@ export default class ChatMessages extends Dom {
     }
 
     addMessage(role, text) {
+        this.messagesState.addMessage({role, text, alerted: false})
         this.$root.append(this.createMessage(role, text));
 
         if (!this.messagesState.messages.length) {
             this.Emitter.emit('hidePlaceholder');
         }
-
-        this.messagesState.addMessage({role, text})
     }
 
     addWelcomeMessagesInDialog(messages) {
-        messages.forEach((message) => this.addMessage('comp', message))
+        messages.forEach((message) => this.addMessage('comp', message, 0))
     }
 
     addLeadMessage() {
