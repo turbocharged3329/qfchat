@@ -85,7 +85,11 @@ export default class ChatWindow extends Dom {
     }
 
     onChatMissclick(event) {
-        if (!event.target.className.includes('qfchat') && !event.target.className.includes('qfchat-btn')) {
+        if (
+            !event.target.className.includes('qfchat') 
+            && !event.target.className.includes('qfchat-btn')
+            && !event.target.closest('qfchat-chat-messages__message-system')
+        ) {
             this.Emitter.emit('hideChat');
             this.toggleWindowVisibility(false);
         }
