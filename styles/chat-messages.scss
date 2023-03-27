@@ -11,6 +11,7 @@ $writing-loader: url("data:image/svg+xml,%3Csvg version='1.1' id='L4' xmlns='htt
     &__message {
         background-color: $white;
         // box-shadow: 5px 4px 11px rgba(0, 0, 0, 0.1);
+        word-break: break-word;
         box-sizing: border-box;
         padding: 17px 20px;
         margin-top: 16px;

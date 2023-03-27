@@ -56,7 +56,7 @@ export default class ChatInput extends Dom {
                 event.stopPropagation();
                 event.preventDefault();
                 this.Emitter.emit('addMessage', 'user', event.target.value);
-                this.Emitter.emit('scrollToBottom');
+                // this.Emitter.emit('scrollToBottom');
                 this.resetInput();
             } else {
                 event.preventDefault()

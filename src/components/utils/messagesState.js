@@ -18,7 +18,6 @@ export default class MessagesState {
         const compMessagesCount = this.messages.filter(msg => msg.role === 'comp').length;
 
         if (message.role === 'user') {
-            console.log(this.messages);
             if (compMessagesCount === 2) {
                 this.Emitter.emit('answer');
             } else if (compMessagesCount === 3) {

@@ -54,13 +54,11 @@ export default class ChatMessages extends Dom {
             if (!silent) {
                 setTimeout(() => {
                     message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
+                    this.Emitter.emit('scrollToBottom');
                     if (!messageData.alerted) {
                         this.Emitter.emit('playMessageSound', messageData.id);
                     }
     
-                    // if (messageData.role === 'system') {
-                    //     window.QFormOrganizer._rebuildForms()
-                    // }
                 }, 1500)
             } else {
                 message.innerHTML = messageData.text.replace(/\n/g, '<br>').trim();
@@ -74,6 +72,7 @@ export default class ChatMessages extends Dom {
 
     addMessage(message, silent = false) {
         this.$root.append(this.createMessage(message, silent));
+        this.Emitter.emit('scrollToBottom');
     }
 
     addLeadMessage() {
