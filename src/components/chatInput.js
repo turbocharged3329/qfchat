@@ -10,6 +10,8 @@ export default class ChatInput extends Dom {
         this.$root = null;
         this.$sendBtn = null;
         this.$input = null;
+
+        this.Emitter.subscribe('disableInput', this.disableInput.bind(this))
     }
 
     createChatInput() {
@@ -66,6 +68,11 @@ export default class ChatInput extends Dom {
     resetInput() {
         this.$input.value = '';
         this.$input.rows = 1;
+    }
+
+    disableInput() {
+        this.$input.value = '';
+        this.$input.setAttribute('disabled', 'disabled');
     }
 
     setInputHeight(event) {

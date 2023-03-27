@@ -32,7 +32,6 @@ export default class ChatMessages extends Dom {
             setTimeout(() => this.addLeadMessage(), 3000)
         })
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
-        // setTimeout(() => this.addLeadMessage(), 3000)
     }
 
     createChatMessagesSection() {
@@ -90,5 +89,6 @@ export default class ChatMessages extends Dom {
             true
         )
         window.QFormOrganizer._rebuildForms()
+        this.Emitter.emit('disableInput');
     }
 }
