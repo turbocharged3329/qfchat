@@ -79,7 +79,7 @@ export default class ChatMessages extends Dom {
         this.addMessage(
             {
                 id:Math.random().toString(16).slice(2),
-                role: 'system',
+                role: 'comp',
                 text: document.location.host === 'chat.web-str3.ru' 
                 ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
                 : '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>',

@@ -78,14 +78,14 @@ $writing-loader: url("data:image/svg+xml,%3Csvg version='1.1' id='L4' xmlns='htt
             //     z-index: 1;
             // }
         }
-        &-system {
-            margin-left: 21px;
-            width: 100%;
-            div[data-formid] {
-                // visibility: hidden;
-                min-height: 50px;
-            }
-        }
+        // &-system {
+        //     margin-left: 21px;
+        //     width: 100%;
+        //     div[data-formid] {
+        //         // visibility: hidden;
+        //         min-height: 50px;
+        //     }
+        // }
 
         &-writing-icon {
             display: block;
