@@ -477,6 +477,9 @@ div, p, span, button, input, textarea {
 .qfchat__transparent {
   opacity: 0;
 }
+.qfchat__overflow-hidden {
+  overflow: hidden;
+}
 .qfchat__main-wrapper {
   width: fit-content;
   height: fit-content;
