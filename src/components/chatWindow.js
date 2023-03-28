@@ -63,15 +63,11 @@ export default class ChatWindow extends Dom {
 
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
-                // document.body.classList.add('qfchat__overflow-hidden');        
-                // document.documentElement.classList.add('qfchat__overflow-hidden');        
-                document.documentElement.addEventListener('scroll', this.preventScroll)
+                window.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
             }
 
-            if (!this.isWindowShown) {
-                // document.body.classList.remove('qfchat__overflow-hidden');
-                // document.documentElement.classList.remove('qfchat__overflow-hidden');        
-                document.documentElement.removeEventListener('scroll', this.preventScroll)
+            if (!this.isWindowShown) {       
+                document.documentElement.removeEventListener('touchmove', this.preventTouchmove.bind(this))
             }
         })
 
@@ -80,7 +76,7 @@ export default class ChatWindow extends Dom {
         return this.$root;
     }
 
-    preventScroll(event) {
+    preventTouchmove(event) {
         event.preventDefault()
         event.stopPropagation()
     }
