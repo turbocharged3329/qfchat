@@ -61,6 +61,8 @@ export default class ChatWindow extends Dom {
         this.$root.append(this.$body)
         this.$root.append(this.$footer)
 
+        window.visualViewport.addEventListener('resize', event => this.$root.style.height = event.target.height + 'px');
+
         return this.$root;
     }
 

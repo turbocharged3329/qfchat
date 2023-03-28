@@ -24,8 +24,6 @@ export default class ChatBtn extends Dom {
         this.addChatWindow();
         this.addOutMessages();
 
-        window.addEventListener('resize', () => console.log(document.documentElement.clientWidth))
-
         setTimeout(() => {
             let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
 
