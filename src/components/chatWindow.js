@@ -63,17 +63,26 @@ export default class ChatWindow extends Dom {
 
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
-                document.body.classList.add('qfchat__overflow-hidden');        
+                // document.body.classList.add('qfchat__overflow-hidden');        
+                // document.documentElement.classList.add('qfchat__overflow-hidden');        
+                document.documentElement.addEventListener('scroll', this.preventScroll)
             }
 
             if (!this.isWindowShown) {
-                document.body.classList.remove('qfchat__overflow-hidden');
+                // document.body.classList.remove('qfchat__overflow-hidden');
+                // document.documentElement.classList.remove('qfchat__overflow-hidden');        
+                document.documentElement.removeEventListener('scroll', this.preventScroll)
             }
         })
 
         window.visualViewport.addEventListener('resize', event => this.$root.style.height = event.target.height + 'px');
 
         return this.$root;
+    }
+
+    preventScroll(event) {
+        event.preventDefault()
+        event.stopPropagation()
     }
 
     toggleWindowVisibility(show) {
