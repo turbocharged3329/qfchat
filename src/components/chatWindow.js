@@ -61,15 +61,15 @@ export default class ChatWindow extends Dom {
         this.$root.append(this.$body)
         this.$root.append(this.$footer)
 
-        this.$root.addEventListener('transitionend', (event) => {
-            if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
-                document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
-            }
+        // this.$root.addEventListener('transitionend', (event) => {
+        //     if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
+        //         document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
+        //     }
 
-            if (!this.isWindowShown) {       
-                document.documentElement.removeEventListener('touchmove', this.preventTouchmove.bind(this))
-            }
-        })
+        //     if (!this.isWindowShown) {       
+        //         document.documentElement.removeEventListener('touchmove', this.preventTouchmove.bind(this))
+        //     }
+        // })
 
         window.visualViewport.addEventListener('resize', event => this.$root.style.height = event.target.height + 'px');
 
