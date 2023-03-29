@@ -74,13 +74,14 @@ export default class ChatWindow extends Dom {
         window.visualViewport.addEventListener('resize', event => {
             this.$root.style.height = event.target.height + 'px'
             document.body.style.height = event.target.height + 'px'
-            document.body.style.overflow = 'hidden';
         });
 
         return this.$root;
     }
 
     preventTouchmove(event) {
+        console.log(document.body.scrollTo({top: 0}));
+        
         if (
             !event.target.closest('.qfchat-chat-window__body')
         ) {
