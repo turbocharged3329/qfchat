@@ -82,6 +82,8 @@ export default class ChatWindow extends Dom {
         ) {
             event.preventDefault()
             event.stopPropagation()
+
+            document.body.ontouchmove = (event) => event.preventDefault()
         }
     }
 
