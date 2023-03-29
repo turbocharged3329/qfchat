@@ -81,8 +81,6 @@ export default class ChatWindow extends Dom {
     }
 
     preventTouchmove(event) {
-        window.scrollTo({top: 0});
-
         if (
             !event.target.closest('.qfchat-chat-window__body')
         ) {
