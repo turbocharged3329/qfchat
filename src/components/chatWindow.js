@@ -64,12 +64,11 @@ export default class ChatWindow extends Dom {
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
                 document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
-                document.body.addEventListener('touchmove', this.preventBodyTouchmove.bind(this), {passive: false})
+                document.body.style = 'overflow:hidden;'
             }
 
             if (!this.isWindowShown) {       
                 document.documentElement.removeEventListener('touchmove', this.preventTouchmove.bind(this))
-                document.body.removeEventListener('touchmove', this.preventBodyTouchmove.bind(this), {passive: false})
             }
         })
 
@@ -85,11 +84,6 @@ export default class ChatWindow extends Dom {
             event.preventDefault()
             event.stopPropagation()
         }
-    }
-
-    preventBodyTouchmove(event) {
-        event.preventDefault()
-        event.stopPropagation()
     }
 
     toggleWindowVisibility(show) {
