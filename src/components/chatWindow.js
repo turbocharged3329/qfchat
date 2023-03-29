@@ -64,7 +64,6 @@ export default class ChatWindow extends Dom {
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
                 document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
-                document.body.style = 'overflow:hidden;'
             }
 
             if (!this.isWindowShown) {       
@@ -72,7 +71,10 @@ export default class ChatWindow extends Dom {
             }
         })
 
-        window.visualViewport.addEventListener('resize', event => this.$root.style.height = event.target.height + 'px');
+        window.visualViewport.addEventListener('resize', event => {
+            this.$root.style.height = event.target.height + 'px'
+            document.body.style.height = event.target.height + 'px'
+        });
 
         return this.$root;
     }
