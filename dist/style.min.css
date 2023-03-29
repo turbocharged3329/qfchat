@@ -321,6 +321,7 @@
 .qfchat-chat-input__input:focus {
   border: none;
   outline: none;
+  font-size: 1em;
 }
 .qfchat-chat-input__input:focus::placeholder {
   opacity: 0;
