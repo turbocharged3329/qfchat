@@ -9,52 +9,60 @@
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }
-.qfchat-btn::before {
-  animation: rotationBeforeBack 1s;
-  animation-fill-mode: forwards;
+@media (min-width: 769px) {
+  .qfchat-btn::before {
+    animation: rotationBeforeBack 1s;
+    animation-fill-mode: forwards;
+  }
+  .qfchat-btn::after {
+    animation: rotationAfterBack 1s;
+    animation-fill-mode: forwards;
+  }
 }
-.qfchat-btn::after {
-  animation: rotationAfterBack 1s;
-  animation-fill-mode: forwards;
-}
-.qfchat-btn.qfchat-btn-opened-once {
-  animation: showBackground 1s;
-  animation-fill-mode: forwards;
-}
-.qfchat-btn.qfchat-btn-opened-once::before {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 1.5px;
-  background-color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%) rotate(45deg);
-}
-.qfchat-btn.qfchat-btn-opened-once::after {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 1.5px;
-  background-color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%) rotate(135deg);
+@media (min-width: 769px) {
+  .qfchat-btn.qfchat-btn-opened-once {
+    animation: showBackground 1s;
+    animation-fill-mode: forwards;
+  }
+  .qfchat-btn.qfchat-btn-opened-once::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  }
+  .qfchat-btn.qfchat-btn-opened-once::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 1.5px;
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(135deg);
+  }
 }
 .qfchat-btn.qfchat-btn-opened {
   position: relative;
-  animation: removeBackground 0.3s;
-  animation-fill-mode: forwards;
 }
-.qfchat-btn.qfchat-btn-opened::before {
-  animation: rotationBefore 1s;
-  animation-fill-mode: forwards;
-}
-.qfchat-btn.qfchat-btn-opened::after {
-  animation: rotationAfter 1s;
-  animation-fill-mode: forwards;
+@media (min-width: 769px) {
+  .qfchat-btn.qfchat-btn-opened {
+    animation: removeBackground 0.3s;
+    animation-fill-mode: forwards;
+  }
+  .qfchat-btn.qfchat-btn-opened::before {
+    animation: rotationBefore 1s;
+    animation-fill-mode: forwards;
+  }
+  .qfchat-btn.qfchat-btn-opened::after {
+    animation: rotationAfter 1s;
+    animation-fill-mode: forwards;
+  }
 }
 .qfchat-btn:hover {
   transform: scale(1.15);
