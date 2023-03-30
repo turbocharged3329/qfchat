@@ -88,7 +88,7 @@ export default class ChatWindow extends Dom {
             if (this.lastScrollPoint) {
                 const scrollDistance = event.touches[0].pageY - this.lastScrollPoint.touches[0].pageY
                     
-                this.$body.scrollTo({top: this.$body.scrollTop + scrollDistance})
+                this.$body.scrollTo({top: this.$body.scrollTop - scrollDistance})
             }
 
             this.lastScrollPoint = event;
