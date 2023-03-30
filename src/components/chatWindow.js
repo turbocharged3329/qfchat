@@ -111,7 +111,6 @@ export default class ChatWindow extends Dom {
     }
 
     scrollToBottom() {
-        window.b = this.$body;
         this.$body.scrollTo({
             top: this.$body.scrollHeight
         })
