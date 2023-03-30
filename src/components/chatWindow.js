@@ -9,6 +9,8 @@ export default class ChatWindow extends Dom {
 
         this.Emitter = options?.emitter;
         this.messagesState = options?.messagesState;
+
+        this.lastScrollPoint = null;
     }
 
     init() {
@@ -64,10 +66,12 @@ export default class ChatWindow extends Dom {
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
                 document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
+                document.documentElement.addEventListener('touchend', this.resetLastScrollPoint.bind(this))
             }
 
             if (!this.isWindowShown) {       
                 document.documentElement.removeEventListener('touchmove', this.preventTouchmove.bind(this))
+                document.documentElement.removeEventListener('touchend', this.resetLastScrollPoint.bind(this))
             }
         })
 
@@ -81,12 +85,20 @@ export default class ChatWindow extends Dom {
     }
 
     preventTouchmove(event) {
-        // if ( 
-        //     !event.target.closest('.qfchat-chat-window__body')
-        // ) {
+            if (this.lastScrollPoint) {
+                const scrollDistance = event.touches[0].pageY - this.lastScrollPoint.touches[0].pageY
+                    
+                this.$body.scrollTo({top: this.$body.scrollTop + scrollDistance})
+            }
+
+            this.lastScrollPoint = event;
+
             event.preventDefault()
             event.stopPropagation()
-        // }
+    }
+
+    resetLastScrollPoint() {
+        this.lastScrollPoint = null;
     }
 
     toggleWindowVisibility(show) {
