@@ -80,19 +80,13 @@ export default class ChatWindow extends Dom {
         return this.$root;
     }
 
-    preventResize(event) {
-        console.log('here');
-        event.preventDefault()
-        event.stopPropagation()
-    }
-
     preventTouchmove(event) {
-        if (
-            !event.target.closest('.qfchat-chat-window__body')
-        ) {
+        // if ( 
+        //     !event.target.closest('.qfchat-chat-window__body')
+        // ) {
             event.preventDefault()
-            // event.stopPropagation()
-        }
+            event.stopPropagation()
+        // }
     }
 
     toggleWindowVisibility(show) {
