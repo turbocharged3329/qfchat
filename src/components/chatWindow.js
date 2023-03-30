@@ -64,7 +64,6 @@ export default class ChatWindow extends Dom {
         this.$root.addEventListener('transitionend', (event) => {
             if (event.propertyName === 'width' && (event.target.clientWidth === +window.visualViewport.width.toFixed(0))) {
                 document.documentElement.addEventListener('touchmove', this.preventTouchmove.bind(this), { passive: false })
-                document.body.style = 'touch-action: none';
             }
 
             if (!this.isWindowShown) {       
@@ -92,7 +91,7 @@ export default class ChatWindow extends Dom {
             !event.target.closest('.qfchat-chat-window__body')
         ) {
             event.preventDefault()
-            event.stopPropagation()
+            // event.stopPropagation()
         }
     }
 
