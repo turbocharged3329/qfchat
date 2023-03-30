@@ -28,6 +28,7 @@ export default class ChatInput extends Dom {
         this.$input.setAttribute('autocomplete', 'false')
         this.$input.addEventListener('input', this.setInputHeight.bind(this)) 
         this.$input.addEventListener('keydown', this.onInputKeydown.bind(this))
+        this.$input.addEventListener('focus', this.emitScrollTop.bind(this))
 
         this.$sendBtn.setAttribute('type', 'button');
         this.$sendBtn.addEventListener('click', this.onClickSend.bind(this))
@@ -45,7 +46,7 @@ export default class ChatInput extends Dom {
 
         if (this.$input.value) {
             this.Emitter.emit('addMessage', 'user', this.$input.value);
-            this.Emitter.emit('scrollToBottom');
+            this.emitScrollTop()
             this.resetInput();
         }
     }
@@ -56,7 +57,6 @@ export default class ChatInput extends Dom {
                 event.stopPropagation();
                 event.preventDefault();
                 this.Emitter.emit('addMessage', 'user', event.target.value);
-                // this.Emitter.emit('scrollToBottom');
                 this.resetInput();
             } else {
                 event.preventDefault()
@@ -73,6 +73,10 @@ export default class ChatInput extends Dom {
     disableInput() {
         this.$input.value = '';
         this.$input.setAttribute('disabled', 'disabled');
+    }
+
+    emitScrollTop() {
+        this.Emitter.emit('scrollToBottom');
     }
 
     setInputHeight(event) {
