@@ -55,6 +55,7 @@ export default class ChatBtn extends Dom {
 
     initMessagesState() {
         this.messagesState = new MessagesState({emitter: this.Emitter});
+        this.messagesState.init()
     }
 
     createChatBtn() {

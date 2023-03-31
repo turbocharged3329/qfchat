@@ -5,7 +5,11 @@ export default class MessagesState {
     }
 
     init() {
+        window.onunload = () => this.saveMessagesToLocalStorage();
+    }
 
+    saveMessagesToLocalStorage() {
+        localStorage.setItem('qfchatmessages', JSON.stringify(this.messages))
     }
 
     addMessage(message) {
