@@ -23,28 +23,36 @@ export default class ChatBtn extends Dom {
         this.addChatBtn();
         this.addChatWindow();
         this.addOutMessages();
-
-        setTimeout(() => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
-
-            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-            this.messagesState.addMessage(message);
-
-            if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage(message);
-            }
-        }, 3000)
+        const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'))
         
-        setTimeout(() => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
-
-            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-            this.messagesState.addMessage(message);
-
-            if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage(message)
-            }
-        }, 5000)
+        if (!storedMessages.length) {
+            setTimeout(() => {
+                let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
+    
+                this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+                this.messagesState.addMessage(message);
+    
+                if (!this.chatWindow.isWindowShown) {
+                    this.chatOutMessages.addOutMessage(message);
+                }
+            }, 3000)
+            
+            setTimeout(() => {
+                let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
+    
+                this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+                this.messagesState.addMessage(message);
+    
+                if (!this.chatWindow.isWindowShown) {
+                    this.chatOutMessages.addOutMessage(message)
+                }
+            }, 5000)
+        } else {
+            storedMessages.forEach(msg => {
+                this.Emitter.emit('addStoredMessage', msg)
+                this.messagesState.addMessage(msg);
+            });
+        }
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
 

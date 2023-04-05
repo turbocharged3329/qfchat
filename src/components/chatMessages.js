@@ -18,6 +18,7 @@ export default class ChatMessages extends Dom {
             this.messagesState.addMessage(message);
         })
         this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
+        this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData))
         this.Emitter.subscribe('answer', () => {
             let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
 
