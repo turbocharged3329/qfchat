@@ -73,6 +73,7 @@ export default class ChatInput extends Dom {
     disableInput() {
         this.$input.value = '';
         this.$input.setAttribute('disabled', 'disabled');
+        this.$sendBtn.classList.add('qfchat__send-btn-disabled');
     }
 
     emitScrollTop() {
