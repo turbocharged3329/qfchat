@@ -25,7 +25,7 @@ export default class ChatBtn extends Dom {
         this.addOutMessages();
         const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'))
         
-        if (!storedMessages.length) {
+        if (!storedMessages?.length) {
             setTimeout(() => {
                 let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
     

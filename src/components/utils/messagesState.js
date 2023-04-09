@@ -5,7 +5,7 @@ export default class MessagesState {
     }
 
     init() {
-        window.onunload = () => this.saveMessagesToLocalStorage();
+        // window.onunload = () => this.saveMessagesToLocalStorage();
     }
 
     saveMessagesToLocalStorage() {
