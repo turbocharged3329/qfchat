@@ -59,6 +59,7 @@ export default class ChatBtn extends Dom {
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
         this.Emitter.subscribe('hideChat', this.toggleOpenedBtnState.bind(this, false))
         this.Emitter.subscribe('playMessageSound', this.playMessageSound.bind(this))
+        this.Emitter.subscribe('resetChat', this.resetChat.bind(this))
     }
 
     initMessagesState() {
@@ -127,5 +128,9 @@ export default class ChatBtn extends Dom {
         this.$audioPlayer.setAttribute('autoplay', true);
         this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
         document.body.append(this.$audioPlayer);
+    }
+
+    resetChat() {
+        this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
     }
 }

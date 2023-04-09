@@ -33,6 +33,7 @@ export default class ChatMessages extends Dom {
             setTimeout(() => this.addLeadMessage(), 3000)
         })
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
+        this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
     }
 
     createChatMessagesSection() {
@@ -90,5 +91,9 @@ export default class ChatMessages extends Dom {
         )
         window.QFormOrganizer._rebuildForms()
         this.Emitter.emit('disableInput');
+    }
+
+    clearMessagesList() {
+        this.$root.innerHTML = ""
     }
 }

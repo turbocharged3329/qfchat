@@ -6,6 +6,7 @@ export default class MessagesState {
 
     init() {
         // window.onunload = () => this.saveMessagesToLocalStorage();
+        this.Emitter.subscribe('resetChat', this.clearMessages.bind(this));
     }
 
     saveMessagesToLocalStorage() {
@@ -28,5 +29,9 @@ export default class MessagesState {
                 this.Emitter.emit('answer2');
             }
         }
+    }
+
+    clearMessages() {
+        this.messages = [];
     }
 }
