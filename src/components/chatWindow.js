@@ -31,10 +31,13 @@ export default class ChatWindow extends Dom {
         this.isOpenedOnce = false;
 
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
-        this.Emitter.subscribe('hidePlaceholder', this.hidePlaceholder.bind(this))
+        this.Emitter.subscribe('hidePlaceholder', this.togglePlaceholderVisibility.bind(this, false))
         this.Emitter.subscribe('closeChat', this.toggleWindowVisibility.bind(this, false))
+        this.Emitter.subscribe('resetChat', this.togglePlaceholderVisibility.bind(this, true))
 
-        document.documentElement.addEventListener('click', this.onChatMissclick.bind(this))
+        if (document.documentElement.clientWidth >= 769) {
+            document.documentElement.addEventListener('click', this.onChatMissclick.bind(this))
+        }
     }
 
     createChatWindow() {
@@ -116,9 +119,9 @@ export default class ChatWindow extends Dom {
         })
     }
 
-    hidePlaceholder() {
-        this.$body.classList.remove('qfchat-body-empty');
-        this.$bodyPlaceholder.classList.add('qfchat__hidden');
+    togglePlaceholderVisibility(show = true) {
+        this.$body.classList[show ? 'add' : 'remove']('qfchat-body-empty');
+        this.$bodyPlaceholder.classList[show ? 'remove' : 'add']('qfchat__hidden');
     }
 
     onChatMissclick(event) {

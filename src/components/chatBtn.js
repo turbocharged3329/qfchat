@@ -23,38 +23,48 @@ export default class ChatBtn extends Dom {
         this.addChatBtn();
         this.addChatWindow();
         this.addOutMessages();
-
-        setTimeout(() => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
-
-            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-            this.messagesState.addMessage(message);
-
-            if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage(message);
-            }
-        }, 3000)
+        const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'))
         
-        setTimeout(() => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
-
-            this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-            this.messagesState.addMessage(message);
-
-            if (!this.chatWindow.isWindowShown) {
-                this.chatOutMessages.addOutMessage(message)
-            }
-        }, 5000)
+        if (!storedMessages?.length) {
+            setTimeout(() => {
+                let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
+    
+                this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+                this.messagesState.addMessage(message);
+    
+                if (!this.chatWindow.isWindowShown) {
+                    this.chatOutMessages.addOutMessage(message);
+                }
+            }, 3000)
+            
+            setTimeout(() => {
+                let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
+    
+                this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+                this.messagesState.addMessage(message);
+    
+                if (!this.chatWindow.isWindowShown) {
+                    this.chatOutMessages.addOutMessage(message)
+                }
+            }, 5000)
+        } else {
+            storedMessages.forEach(msg => {
+                this.Emitter.emit('addStoredMessage', msg)
+                this.messagesState.addMessage(msg);
+            });
+        }
 
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
 
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
         this.Emitter.subscribe('hideChat', this.toggleOpenedBtnState.bind(this, false))
         this.Emitter.subscribe('playMessageSound', this.playMessageSound.bind(this))
+        this.Emitter.subscribe('resetChat', this.resetChat.bind(this))
     }
 
     initMessagesState() {
         this.messagesState = new MessagesState({emitter: this.Emitter});
+        this.messagesState.init()
     }
 
     createChatBtn() {
@@ -117,5 +127,9 @@ export default class ChatBtn extends Dom {
         this.$audioPlayer.setAttribute('autoplay', true);
         this.$audioPlayer.addEventListener('ended', (event) => event.target.remove()) 
         document.body.append(this.$audioPlayer);
+    }
+
+    resetChat() {
+        this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
     }
 }

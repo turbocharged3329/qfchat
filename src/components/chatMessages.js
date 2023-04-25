@@ -18,6 +18,7 @@ export default class ChatMessages extends Dom {
             this.messagesState.addMessage(message);
         })
         this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
+        this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData))
         this.Emitter.subscribe('answer', () => {
             let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
 
@@ -32,6 +33,7 @@ export default class ChatMessages extends Dom {
             setTimeout(() => this.addLeadMessage(), 3000)
         })
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
+        this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
     }
 
     createChatMessagesSection() {
@@ -89,5 +91,9 @@ export default class ChatMessages extends Dom {
         )
         window.QFormOrganizer._rebuildForms()
         this.Emitter.emit('disableInput');
+    }
+
+    clearMessagesList() {
+        this.$root.innerHTML = ""
     }
 }

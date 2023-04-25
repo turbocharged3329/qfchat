@@ -73,6 +73,21 @@ export default class ChatInput extends Dom {
     disableInput() {
         this.$input.value = '';
         this.$input.setAttribute('disabled', 'disabled');
+        this.$sendBtn.classList.add('qfchat__send-btn-disabled');
+        this.stratCountdownToReset(10);
+    }
+
+    enableInput() {
+        this.$input.removeAttribute('disabled');
+        this.$sendBtn.classList.remove('qfchat__send-btn-disabled');
+    }
+
+    stratCountdownToReset(time) {
+        let timeout = setTimeout(() => {
+            this.Emitter.emit('resetChat');
+            this.enableInput();
+            clearTimeout(timeout);
+        }, time * 1000)
     }
 
     emitScrollTop() {

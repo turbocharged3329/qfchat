@@ -25,6 +25,7 @@ export default  class OutMessages extends Dom {
         const $message = this.createElement('div', 'qfchat-out-messages__message');
         $message.innerHTML = text;
         $message.addEventListener('mouseenter', this.openChatWindow.bind(this))
+        $message.addEventListener('touchstart', this.openChatWindow.bind(this))
 
         return $message;
     }

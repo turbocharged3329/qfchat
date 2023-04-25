@@ -1,20 +1,22 @@
 export default class Emitter {
     constructor() {
-        this.events = []
+        this.events = {}
     }
 
     emit(eventName, ...args) {
-        const eventToFire = this.events.find(event => event.name === eventName);
- 
+        const eventToFire = this.events.hasOwnProperty(eventName);
+        
         if (eventToFire) {
-            eventToFire.callback.call(this, ...args)
+            this.events[eventName].forEach(callback => callback.call(this, ...args))
         }
     }
 
     subscribe(eventName, fn) {
-        this.events.push({
-            name: eventName,
-            callback: fn
-        });
+        if (!this.events.hasOwnProperty(eventName)) {
+            this.events[eventName] = [];
+            this.events[eventName].push(fn);
+        } else {
+            this.events[eventName].push(fn);
+        }
     }
 }
