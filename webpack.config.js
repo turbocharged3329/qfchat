@@ -1,8 +1,9 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require('path');
-
 const isProduction = process.env.NODE_ENV == 'production';
+
+const dotenv = require('dotenv');
+dotenv.config()
 
 const config = {
     entry: [
@@ -44,8 +45,6 @@ const config = {
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
-
-
     } else {
         config.mode = 'development';
     }
