@@ -14,11 +14,12 @@ export default class StatusBar extends Dom {
         this.$mobileCloseBtn = null;
     }
 
-    createStatusBar() {
+    createStatusBar(avatarSettings) {
+        console.log(avatarSettings);
         this.$root = this.createElement('div', 'qfchat-status-bar');
 
         this.$root.append(this.createAvatar());
-        this.$root.append(this.createStatusInfo());
+        this.$root.append(this.createStatusInfo(avatarSettings.manager));
         this.$root.append(this.createMobileCloseBtn());
 
         return this.$root;
@@ -30,7 +31,6 @@ export default class StatusBar extends Dom {
         const $avatarStatus = this.createElement('i', ['qfchat-status-bar__avatar-status', 'qfchat-status-bar__avatar-status-online']);
 
         $avatarImage.src = '/src/assets/evgeniy.png';
-        // $avatarImage.src = 'https://i.ibb.co/fX36b1W/evgeniy.png';
 
         this.$avatarWrapper.append($avatarImage);
         this.$avatarWrapper.append($avatarStatus);
@@ -38,13 +38,13 @@ export default class StatusBar extends Dom {
         return this.$avatarWrapper;
     }
 
-    createStatusInfo() {
+    createStatusInfo(managerName) {
         this.$statusInfoWrapper = this.createElement('div', 'qfchat-status-bar__status-info-wrapper')
 
         const name = this.createElement('span', 'qfchat-status-bar__status-info-name')
         const status = this.createElement('span', 'qfchat-status-bar__status-info-status')
 
-        name.innerHTML = 'Евгений';
+        name.innerHTML = managerName;
         status.innerHTML = 'Онлайн';
 
         this.$statusInfoWrapper.append(name)

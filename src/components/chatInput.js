@@ -41,28 +41,52 @@ export default class ChatInput extends Dom {
         return this.$root;
     }
 
-    onClickSend(event) {
+    async onClickSend(event) {
         event.stopPropagation();
 
         if (this.$input.value) {
             this.Emitter.emit('addMessage', 'user', this.$input.value);
             this.emitScrollTop()
             this.resetInput();
+
+            const answer = await this.sendMessageToAPI();
+            const answerData = await answer.json();
+
+            this.Emitter.emit('answer', answerData['response-text']);
         }
     }
 
-    onInputKeydown(event) {
+    async onInputKeydown(event) {
         if (event.keyCode === 13 && !event.shiftKey) {
             if (this.$input.value) { 
                 event.stopPropagation();
                 event.preventDefault();
                 this.Emitter.emit('addMessage', 'user', event.target.value);
                 this.resetInput();
+
+                const answer = await this.sendMessageToAPI();
+                const answerData = await answer.json();
+
+                this.Emitter.emit('answer', answerData['response-text']);
             } else {
                 event.preventDefault()
                 this.$input.blur()
             }
         }
+    }
+
+    async sendMessageToAPI(messageText) {
+        return fetch('http://localhost:9999/chat-gpt-api', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                chat_id: 2,
+                text: messageText,
+                session_uuid: 'e151f5b4-13f3-4990-bc55-e51140250310'
+            })
+        })
     }
 
     resetInput() {

@@ -1,6 +1,7 @@
 export default class MessagesState {
     constructor(options) {
         this.Emitter = options.emitter;
+        this.welcomeMessagesCount = options.welcomeMessagesCount;
         this.messages = [];
     }
 
@@ -23,8 +24,9 @@ export default class MessagesState {
         const compMessagesCount = this.messages.filter(msg => msg.role === 'comp').length;
 
         if (message.role === 'user') {
-            if (compMessagesCount === 2) {
-                this.Emitter.emit('answer');
+            if (compMessagesCount === this.welcomeMessagesCount) {
+                // this.Emitter.emit('answer');
+                return 
             } else if (compMessagesCount === 3) {
                 this.Emitter.emit('answer2');
             }

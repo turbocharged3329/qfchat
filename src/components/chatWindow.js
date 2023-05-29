@@ -9,6 +9,7 @@ export default class ChatWindow extends Dom {
 
         this.Emitter = options?.emitter;
         this.messagesState = options?.messagesState;
+        this.avatarSettings = options.avatarSettings;
 
         this.lastScrollPoint = null;
     }
@@ -48,7 +49,7 @@ export default class ChatWindow extends Dom {
         //добавляем статусбар
         this.statusBar = new StatusBar({emitter: this.Emitter});
         this.statusBar.init();
-        this.$header.append(this.statusBar.createStatusBar())
+        this.$header.append(this.statusBar.createStatusBar(this.avatarSettings))
         //добавляем секцию с сообщениями
         this.chatMessagesSection = new ChatMessages({emitter: this.Emitter, messagesState: this.messagesState});
         this.chatMessagesSection.init();

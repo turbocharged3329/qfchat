@@ -19,12 +19,14 @@ export default class ChatMessages extends Dom {
         })
         this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
         this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData))
-        this.Emitter.subscribe('answer', () => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
+        // this.Emitter.subscribe('answer', (text) => {
+        //     console.log(text);
+        //     let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
 
-            this.addMessage(message);
-            this.messagesState.addMessage(message);
-        })
+        //     this.addMessage(message);
+        //     this.messagesState.addMessage(message);
+        // })
+        this.Emitter.subscribe('answer', this.addAnswerMessage.bind(this))
         this.Emitter.subscribe('answer2', () => {
             let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты', alerted: false};
 
@@ -34,6 +36,13 @@ export default class ChatMessages extends Dom {
         })
         this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
         this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
+    }
+
+    addAnswerMessage(text) {
+        let message = {id: Math.random().toString(16).slice(2), role: 'comp', text, alerted: false};
+
+        this.addMessage(message);
+        this.messagesState.addMessage(message);
     }
 
     createChatMessagesSection() {
