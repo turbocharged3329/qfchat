@@ -141,7 +141,8 @@ export default class ChatBtn extends Dom {
         this.chatWindow = new ChatWindow({
             emitter: this.Emitter, 
             messagesState: this.messagesState, 
-            avatarSettings: {avatar_img: null, manager: this.chatOptions.manager}
+            avatarSettings: {avatar_img: this.chatOptions.avatar_img, manager: this.chatOptions.manager},
+            sessionUuid: this.chatOptions.session_uuid
         });
 
         this.chatWindow.init();

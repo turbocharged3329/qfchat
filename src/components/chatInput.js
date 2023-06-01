@@ -2,7 +2,7 @@ import Dom from "./utils/dom.js";
 export default class ChatInput extends Dom {
     constructor(options) {
         super()
-
+        this.sessionUuid = options.sessionUuid;
         this.Emitter = options?.emitter;
     }
 
@@ -45,14 +45,13 @@ export default class ChatInput extends Dom {
         event.stopPropagation();
 
         if (this.$input.value) {
-            this.Emitter.emit('addMessage', 'user', this.$input.value);
+            const messageText = this.$input.value;
+
+            this.Emitter.emit('addMessage', 'user', messageText);
             this.emitScrollTop()
             this.resetInput();
 
-            const answer = await this.sendMessageToAPI();
-            const answerData = await answer.json();
-
-            this.Emitter.emit('answer', answerData['response-text']);
+            this.getAnswerFromAPI(messageText)
         }
     }
 
@@ -61,17 +60,29 @@ export default class ChatInput extends Dom {
             if (this.$input.value) { 
                 event.stopPropagation();
                 event.preventDefault();
-                this.Emitter.emit('addMessage', 'user', event.target.value);
+
+                const messageText = this.$input.value;
+
+                this.Emitter.emit('addMessage', 'user', messageText);
                 this.resetInput();
 
-                const answer = await this.sendMessageToAPI();
-                const answerData = await answer.json();
+                this.getAnswerFromAPI(messageText);
 
-                this.Emitter.emit('answer', answerData['response-text']);
             } else {
                 event.preventDefault()
                 this.$input.blur()
             }
+        }
+    }
+
+    async getAnswerFromAPI(messageText) {
+        const answer = await this.sendMessageToAPI(messageText);
+        const answerData = await answer.json();
+
+        if (answerData.text) {
+            this.Emitter.emit('answer', answerData['response_text']);
+        } else if (answerData.lead_message) {
+            this.Emitter.emit('lead_message', answerData);
         }
     }
 
@@ -84,7 +95,7 @@ export default class ChatInput extends Dom {
             body: JSON.stringify({
                 chat_id: 2,
                 text: messageText,
-                session_uuid: 'e151f5b4-13f3-4990-bc55-e51140250310'
+                session_uuid: this.sessionUuid
             })
         })
     }

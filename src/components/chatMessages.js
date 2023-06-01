@@ -19,22 +19,12 @@ export default class ChatMessages extends Dom {
         })
         this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
         this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData))
-        // this.Emitter.subscribe('answer', (text) => {
-        //     console.log(text);
-        //     let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично, мы занимаемся разработкой сайтов. Какой Вас интересует?', alerted: false};
-
-        //     this.addMessage(message);
-        //     this.messagesState.addMessage(message);
-        // })
+        
         this.Emitter.subscribe('answer', this.addAnswerMessage.bind(this))
-        this.Emitter.subscribe('answer2', () => {
-            let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Отлично мы делаем сайты доставки. Я передам ваше сообщение старжему менеджеру, оставте пожалуйста свои контакты', alerted: false};
-
-            this.addMessage(message);
-            this.messagesState.addMessage(message);
-            setTimeout(() => this.addLeadMessage(), 3000)
+        this.Emitter.subscribe('lead_message', (settings) => {
+            this.addAnswerMessage(settings.lead_message);
+            setTimeout(() => this.addForm(settings.form_id), 3000)
         })
-        this.Emitter.subscribe('form', this.addLeadMessage.bind(this))
         this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
     }
 
@@ -86,19 +76,23 @@ export default class ChatMessages extends Dom {
         this.Emitter.emit('scrollToBottom');
     }
 
-    addLeadMessage() {
+    addForm(formId) {
         this.addMessage(
             {
                 id:Math.random().toString(16).slice(2),
                 role: 'comp',
                 text: document.location.host === 'chat.web-str3.ru' 
                 ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
-                : '<div data-formid="form_zsjlpxeLIZf6klEyM6u4uNE-x5GI-Yxm"></div>',
+                : `<div data-formid="${formId}"></div>`,
                 alerted: true,  
             }, 
             true
         )
-        window.QFormOrganizer._rebuildForms()
+        window.QFormOrganizer._rebuildForms();
+
+        const form = this.$root.querySelector('div[data-formid]');
+        form.addEventListener(`qform_${formId}_init`, () => this.Emitter.emit('scrollToBottom'))
+
         this.Emitter.emit('disableInput');
     }
 

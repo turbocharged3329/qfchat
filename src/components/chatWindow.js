@@ -6,10 +6,10 @@ import ChatMessages from "./chatMessages.js";
 export default class ChatWindow extends Dom {
     constructor(options) {
         super();
-
         this.Emitter = options?.emitter;
         this.messagesState = options?.messagesState;
         this.avatarSettings = options.avatarSettings;
+        this.sessionUuid = options.sessionUuid;
 
         this.lastScrollPoint = null;
     }
@@ -59,7 +59,7 @@ export default class ChatWindow extends Dom {
         this.$bodyPlaceholder.innerHTML = 'Пока нет сообщений'
         this.$body.append(this.$bodyPlaceholder)
         //добавляем секцию с полем ввода
-        this.chatInput = new ChatInput({emitter: this.Emitter});
+        this.chatInput = new ChatInput({emitter: this.Emitter, sessionUuid: this.sessionUuid});
         this.chatInput.init();
         this.$footer.append(this.chatInput.createChatInput())
         //добавляем составные части к окну чата

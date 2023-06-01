@@ -15,22 +15,22 @@ export default class StatusBar extends Dom {
     }
 
     createStatusBar(avatarSettings) {
-        console.log(avatarSettings);
         this.$root = this.createElement('div', 'qfchat-status-bar');
 
-        this.$root.append(this.createAvatar());
+        this.$root.append(this.createAvatar(avatarSettings.avatar_img));
         this.$root.append(this.createStatusInfo(avatarSettings.manager));
         this.$root.append(this.createMobileCloseBtn());
 
         return this.$root;
     }
 
-    createAvatar() {
+    createAvatar(avatarSrc) {
         this.$avatarWrapper = this.createElement('div', 'qfchat-status-bar__avatar-wrapper');
         const $avatarImage = this.createElement('img', ['qfchat-status-bar__avatar-img', 'qfchat-status-bar__avatar-img-online']);
         const $avatarStatus = this.createElement('i', ['qfchat-status-bar__avatar-status', 'qfchat-status-bar__avatar-status-online']);
 
-        $avatarImage.src = '/src/assets/evgeniy.png';
+        // $avatarImage.src = '/src/assets/evgeniy.png';
+        $avatarImage.src = avatarSrc;
 
         this.$avatarWrapper.append($avatarImage);
         this.$avatarWrapper.append($avatarStatus);

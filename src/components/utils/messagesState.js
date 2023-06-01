@@ -20,17 +20,6 @@ export default class MessagesState {
         }
         
         this.messages.push(message);
-
-        const compMessagesCount = this.messages.filter(msg => msg.role === 'comp').length;
-
-        if (message.role === 'user') {
-            if (compMessagesCount === this.welcomeMessagesCount) {
-                // this.Emitter.emit('answer');
-                return 
-            } else if (compMessagesCount === 3) {
-                this.Emitter.emit('answer2');
-            }
-        }
     }
 
     clearMessages() {
