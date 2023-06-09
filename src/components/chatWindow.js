@@ -34,7 +34,7 @@ export default class ChatWindow extends Dom {
         this.Emitter.subscribe('scrollToBottom', this.scrollToBottom.bind(this))
         this.Emitter.subscribe('hidePlaceholder', this.togglePlaceholderVisibility.bind(this, false))
         this.Emitter.subscribe('closeChat', this.toggleWindowVisibility.bind(this, false))
-        this.Emitter.subscribe('resetChat', this.togglePlaceholderVisibility.bind(this, true))
+        // this.Emitter.subscribe('resetChat', this.togglePlaceholderVisibility.bind(this, true))
 
         if (document.documentElement.clientWidth >= 769) {
             document.documentElement.addEventListener('click', this.onChatMissclick.bind(this))

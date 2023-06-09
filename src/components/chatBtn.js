@@ -21,59 +21,48 @@ export default class ChatBtn extends Dom {
     }
 
     async init() {
-        this.chatOptions = await this.getOptionsFromAPI();
-
-        if (this.chatOptions) {
-            this.chatOptions = await this.chatOptions.json();
-        }
-
+        await this.setChatOptions();
+        this.setCustomColor('#1CA9DF');
         this.initMessagesState();
         this.addChatBtn();
         this.addChatWindow();
         this.addOutMessages();
-        const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'))
+        
+        let storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'));
 
-        if (this.chatOptions) {
-            setTimeout(() => {
-                    let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: this.chatOptions.greeting};
+        if (!storedMessages) {
+            localStorage.setItem('qfchatmessages', JSON.stringify([]))
+            storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'));
+        }
         
-                    this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-                    this.messagesState.addMessage(message);
-        
-                    if (!this.chatWindow.isWindowShown) {
-                        this.chatOutMessages.addOutMessage(message);
-                    }
-                }, 3000)
+        if (!storedMessages.length) {
+            this.chatOptions.greeting.forEach((msg, i) => {
+                setTimeout(() => {
+                let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: msg.text};
+    
+                this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
+                this.messagesState.addMessage(message);
+    
+                if (!this.chatWindow.isWindowShown) {
+                    this.chatOutMessages.addOutMessage(message);
+                }
+            }, (this.chatOptions.delay_greeting * 1000) + (2000 * i))
+            })
+        } else {
+            storedMessages.forEach(msg => {
+                if (msg.isFormMessage) {
+                    this.Emitter.emit('addStoredFormMessage', msg);
+                } else {
+                    this.Emitter.emit('addStoredMessage', msg)
+                }
+
+                this.messagesState.addMessage(msg);
+            });
+
+            if (window.QFormOrganizer) {
+                window.QFormOrganizer._rebuildForms();
             }
-        // if (!storedMessages?.length) {
-        //     setTimeout(() => {
-        //         let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Привет, меня зовут Евгений'};
-    
-        //         this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-        //         this.messagesState.addMessage(message);
-    
-        //         if (!this.chatWindow.isWindowShown) {
-        //             this.chatOutMessages.addOutMessage(message);
-        //         }
-        //     }, 3000)
-            
-        //     setTimeout(() => {
-        //         let message = {id: Math.random().toString(16).slice(2), role: 'comp', text: 'Чем могу помочь ?', alerted: false}
-    
-        //         this.Emitter.emit('hasWelcomeMessages', message, !this.chatWindow.isWindowShown)
-        //         this.messagesState.addMessage(message);
-    
-        //         if (!this.chatWindow.isWindowShown) {
-        //             this.chatOutMessages.addOutMessage(message)
-        //         }
-        //     }, 5000)
-        // } else {
-        //     storedMessages.forEach(msg => {
-        //         this.Emitter.emit('addStoredMessage', msg)
-        //         this.messagesState.addMessage(msg);
-        //     });
-        // }
-
+        }
         this.$chatBtn.addEventListener('click', this.openChatWindow.bind(this))
 
         this.Emitter.subscribe('showChat', this.openChatWindow.bind(this))
@@ -88,9 +77,29 @@ export default class ChatBtn extends Dom {
                 "Content-Type": "application/json"
             },
             method: 'POST',
-            body: JSON.stringify({"chat_id": 2})
+            body: JSON.stringify({
+                chat_id: 2,
+                url: document.URL
+            })
             
         })
+    }
+
+    async setChatOptions() {
+        let storedOptions = JSON.parse(localStorage.getItem('qfchatsettings'));
+        let sessionStatus = JSON.parse(localStorage.getItem('qfchatsessionstatus'));
+
+        if (!storedOptions || (storedOptions && sessionStatus === '-1')) {
+            this.chatOptions = await this.getOptionsFromAPI();
+
+            if (this.chatOptions) {
+                this.chatOptions = await this.chatOptions.json();
+                localStorage.setItem('qfchatsettings', JSON.stringify(this.chatOptions));
+                localStorage.setItem('qfchatsessionstatus', JSON.stringify("1"));
+            }
+        } else {
+            this.chatOptions = JSON.parse(localStorage.getItem('qfchatsettings'));
+        }
     }
 
     initMessagesState() {
@@ -168,7 +177,27 @@ export default class ChatBtn extends Dom {
         document.body.append(this.$audioPlayer);
     }
 
-    resetChat() {
-        this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
+    setCustomColor(color) {
+        const $style = document.createElement('style');
+
+        $style.innerHTML = `
+            .qfchat-chat-window__header, .qfchat-btn, .qfchat-chat-messages__message-user {
+                background-color: ${color}; 
+            }
+            .qfchat-chat-input__send-btn {
+                background-image: url("data:image/svg+xml,%3Csvg width='27' height='27' viewBox='0 0 27 27' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.1634 10.5412C1.58965 10.3106 1.5964 9.96748 2.20165 9.76611L23.6734 2.60886C24.2685 2.41086 24.6094 2.74386 24.4429 3.32661L18.3071 24.7984C18.1384 25.3935 17.7728 25.4205 17.5005 24.8771L12.375 14.625L2.1634 10.5412ZM7.66465 10.3162L14.0051 12.8531L17.4251 19.6954L21.4144 5.73411L7.66352 10.3162H7.66465Z' fill='${color}'/%3E%3C/svg%3E%0A");
+            }
+        `
+        document.head.append($style) 
+    }
+
+    async resetChat() {
+        // this.chatWindow?.toggleWindowVisibility(!this.chatWindow?.isWindowShown)
+
+        this.chatOptions = await this.getOptionsFromAPI();
+        this.chatOptions = await this.chatOptions.json();
+        localStorage.setItem('qfchatsettings', JSON.stringify(this.chatOptions));
+        localStorage.setItem('qfchatsessionstatus', JSON.stringify("1"));
+        this.Emitter.emit('updateSettings', this.chatOptions)
     }
 }

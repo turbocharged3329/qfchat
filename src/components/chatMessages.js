@@ -15,23 +15,37 @@ export default class ChatMessages extends Dom {
             let message = {id: Math.random().toString(16).slice(2), role, text, alerted: true};
 
             this.addMessage(message);
+            this.saveMessageToLocalStorage(message);
             this.messagesState.addMessage(message);
         })
-        this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => this.addMessage(messageData, isChatWindowShown))
-        this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData))
+        this.Emitter.subscribe('addStoredMessage', (messageData) => this.addMessage(messageData, true))
+        this.Emitter.subscribe('addStoredFormMessage', (formMessageData) => {
+            this.addMessage(formMessageData, true);
+            this.Emitter.emit('disableInput');
+
+            const forms = this.$root.querySelectorAll(`div[data-formid=${formMessageData.formId}]`);
+            const form = forms[forms.length - 1];
+            
+            this.addFormActionsListeners(form, formMessageData.formId);
+        })
+        this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => {
+            this.addMessage(messageData, isChatWindowShown)
+            this.saveMessageToLocalStorage(messageData);
+        })
         
         this.Emitter.subscribe('answer', this.addAnswerMessage.bind(this))
         this.Emitter.subscribe('lead_message', (settings) => {
             this.addAnswerMessage(settings.lead_message);
             setTimeout(() => this.addForm(settings.form_id), 3000)
         })
-        this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
+        // this.Emitter.subscribe('resetChat', this.clearMessagesList.bind(this))
     }
 
     addAnswerMessage(text) {
         let message = {id: Math.random().toString(16).slice(2), role: 'comp', text, alerted: false};
 
         this.addMessage(message);
+        this.saveMessageToLocalStorage(message);
         this.messagesState.addMessage(message);
     }
 
@@ -76,24 +90,53 @@ export default class ChatMessages extends Dom {
         this.Emitter.emit('scrollToBottom');
     }
 
+    saveMessageToLocalStorage(messageData) {
+        const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'));
+        storedMessages.push(messageData);
+        localStorage.setItem('qfchatmessages', JSON.stringify(storedMessages));
+    }
+
     addForm(formId) {
-        this.addMessage(
-            {
-                id:Math.random().toString(16).slice(2),
-                role: 'comp',
-                text: document.location.host === 'chat.web-str3.ru' 
-                ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
-                : `<div data-formid="${formId}"></div>`,
-                alerted: true,  
-            }, 
-            true
-        )
+        console.log('here');
+
+        const formMessageData = {
+            id:Math.random().toString(16).slice(2),
+            role: 'comp',
+            text: document.location.host === 'chat.web-str3.ru' 
+            ? '<div data-formid="form_FiSLhstcMeH-93CsZGIdmPCTEGySibKl"></div>' 
+            : `<div data-formid="${formId}"></div>`,
+            alerted: true,  
+            formId,
+            isFormMessage: true
+        }
+
+        this.addMessage(formMessageData, true)
+        this.saveMessageToLocalStorage(formMessageData);
+        this.messagesState.addMessage(formMessageData);
         window.QFormOrganizer._rebuildForms();
-
-        const form = this.$root.querySelector('div[data-formid]');
-        form.addEventListener(`qform_${formId}_init`, () => this.Emitter.emit('scrollToBottom'))
-
+        
         this.Emitter.emit('disableInput');
+
+        const forms = this.$root.querySelectorAll(`div[data-formid=${formId}]`);
+        const form = forms[forms.length - 1];
+
+        this.addFormActionsListeners(form, formId);
+    }
+
+    addFormActionsListeners($formEl, formId) {
+        $formEl.addEventListener(`qform_${formId}_init`, () => this.Emitter.emit('scrollToBottom'))
+        $formEl.addEventListener(`qform_${formId}_send`, (event) => {
+            console.log($formEl, event);
+            const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'));
+            let storedFormMessage = storedMessages.find(msg => msg.isFormMessage);
+            //при отправке формы заменяем разметку (div с data-formid в тексте сообщения) на сообщение об отправке, установленное в форме
+            storedFormMessage.text = event.target.innerText; 
+            storedFormMessage.isFormMessage = false; 
+            storedMessages.splice(storedMessages.findIndex(elem => elem.isFormMessage), 1, storedFormMessage);
+            localStorage.setItem('qfchatmessages', JSON.stringify(storedMessages));
+            localStorage.setItem('qfchatsessionstatus', JSON.stringify('-1'))
+            this.Emitter.emit('countdownToReset');
+        })
     }
 
     clearMessagesList() {

@@ -12,6 +12,10 @@ export default class ChatInput extends Dom {
         this.$input = null;
 
         this.Emitter.subscribe('disableInput', this.disableInput.bind(this))
+        this.Emitter.subscribe('countdownToReset', () => this.stratCountdownToReset(5))
+        this.Emitter.subscribe('updateSettings', (settings) => {
+            this.sessionUuid = settings.session_uuid
+        });
     }
 
     createChatInput() {
@@ -95,7 +99,8 @@ export default class ChatInput extends Dom {
             body: JSON.stringify({
                 chat_id: 2,
                 text: messageText,
-                session_uuid: this.sessionUuid
+                session_uuid: this.sessionUuid,
+                url: document.URL
             })
         })
     }
@@ -109,7 +114,6 @@ export default class ChatInput extends Dom {
         this.$input.value = '';
         this.$input.setAttribute('disabled', 'disabled');
         this.$sendBtn.classList.add('qfchat__send-btn-disabled');
-        this.stratCountdownToReset(10);
     }
 
     enableInput() {
