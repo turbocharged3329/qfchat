@@ -25,7 +25,7 @@ export default class ChatMessages extends Dom {
 
             const forms = this.$root.querySelectorAll(`div[data-formid=${formMessageData.formId}]`);
             const form = forms[forms.length - 1];
-            
+
             this.addFormActionsListeners(form, formMessageData.formId);
         })
         this.Emitter.subscribe('hasWelcomeMessages', (messageData, isChatWindowShown) => {
@@ -126,7 +126,6 @@ export default class ChatMessages extends Dom {
     addFormActionsListeners($formEl, formId) {
         $formEl.addEventListener(`qform_${formId}_init`, () => this.Emitter.emit('scrollToBottom'))
         $formEl.addEventListener(`qform_${formId}_send`, (event) => {
-            console.log($formEl, event);
             const storedMessages = JSON.parse(localStorage.getItem('qfchatmessages'));
             let storedFormMessage = storedMessages.find(msg => msg.isFormMessage);
             //при отправке формы заменяем разметку (div с data-formid в тексте сообщения) на сообщение об отправке, установленное в форме

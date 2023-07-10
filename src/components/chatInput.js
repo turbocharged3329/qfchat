@@ -91,7 +91,7 @@ export default class ChatInput extends Dom {
     }
 
     async sendMessageToAPI(messageText) {
-        return fetch('http://localhost:9999/chat-gpt-api', {
+        return fetch('https://chatgpt.roomsee.ru/chat-gpt-api', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

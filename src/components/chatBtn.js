@@ -72,7 +72,7 @@ export default class ChatBtn extends Dom {
     }
 
     async getOptionsFromAPI() {
-        return fetch('http://localhost:9999/chat-gpt-api/init', {
+        return fetch(`https://chatgpt.roomsee.ru/chat-gpt-api/init`, {
             headers: {
                 "Content-Type": "application/json"
             },
